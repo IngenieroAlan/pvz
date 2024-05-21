@@ -7,7 +7,6 @@ class GameController {
         this.frameSinceLastSun = 0;
     }
     renderHud() {
-        image(bg, 0, 0, width, height, 0, 0, this.bg.width, this.bg.height, COVER);
         image(seeds, 160, 0, 300, 100);
         text("POINTS: " + this.points, 10, 50);
     }

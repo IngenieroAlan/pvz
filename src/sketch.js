@@ -27,6 +27,8 @@ function setup() {
     menu = false;
     settings = false;
 
+    gameController = new GameController(bg, seeds, POINTS);
+
     btnMenu = createButton('Play music');
     btnMenu.position(width - 80, 20);
     btnMenu.mousePressed(toggleMusic);
@@ -99,7 +101,11 @@ function draw() {
     } else {
         menuSound.stop();
         if(!settings){
+            textFont(font);
+            textSize(32);
+            fill('white');
             image(gameBackground, 0, 0, 900, 600);
+            gameController.renderHud();
         }else{
             filter(BLUR, 3);
         }
