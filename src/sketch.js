@@ -5,14 +5,15 @@ let seeds;
 let gameController;
 
 let POINTS = 1000;
-let menuSound;
 let btnMenu;
+let menuSound;
+let menuBackground;
+let settings;
 let btnSettings;
 let gameBackground;
-let settings;
+let gameSound;
 let volumeSlider;
 let settingsPanel;
-let menuBackground;
 let button;
 let plant;
 let projectiles = [];
@@ -23,6 +24,7 @@ let frames = 0;
 function preload() {
     soundFormats('mp3', 'ogg');
     menuSound = loadSound('public/assets/music/main_menu_soundtrack.ogg');
+    gameSound = loadSound('public/assets/music/grasswalk.mp3');
     bg = loadImage("public/assets/images/bg.png");
     seeds = loadImage("public/assets/images/seeds.png");
     menuBackground = loadImage("public/assets/images/menuBackground.png");
@@ -72,10 +74,18 @@ function setup() {
 }
 
 function toggleMusic() {
-    if (menuSound.isPlaying()) {
-        menuSound.stop();
-    } else {
-        menuSound.play();
+    if (menu){
+        if (menuSound.isPlaying()) {
+            menuSound.stop();
+        } else {
+            menuSound.play();
+        }
+    }else{
+        if (gameSound.isPlaying()) {
+            gameSound.stop();
+        } else {
+            gameSound.play();
+        }
     }
 }
 
