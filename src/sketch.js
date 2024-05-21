@@ -18,8 +18,25 @@ let button;
 let plant;
 let projectiles = [];
 let zombies = [];
-let zombieSpawnRate = 100; // Rate of zombie spawning
+let zombieSpawnRate = 100;
 let frames = 0;
+
+let coords = {
+    rows: [
+        125,
+        225,
+        325,
+        420,
+        520
+    ],
+    cols: [
+        200,
+        150,
+        225,
+        175
+    ]
+};
+
 
 function preload() {
     soundFormats('mp3', 'ogg');
@@ -46,7 +63,7 @@ function setup() {
     btnSettings = createButton('Settings');
     btnSettings.position(width - 160, 20);
     btnSettings.mousePressed(toggleSettings);
-    
+
     settingsPanel = createDiv();
     settingsPanel.position(200, 100);
     settingsPanel.size(500, 400);
@@ -69,18 +86,18 @@ function setup() {
         text("Press ENTER to start", 400, 300);
     }
 
-    plant = new Plant(50, height / 2);
+    plant = new Plant(coords.cols[3], coords.rows[3]);
 
 }
 
 function toggleMusic() {
-    if (menu){
+    if (menu) {
         if (menuSound.isPlaying()) {
             menuSound.stop();
         } else {
             menuSound.play();
         }
-    }else{
+    } else {
         if (gameSound.isPlaying()) {
             gameSound.stop();
         } else {
@@ -94,11 +111,11 @@ function toggleSettings() {
         settings = false;
         volumeSlider.hide();
         settingsPanel.hide();
-        
+
     } else {
         settings = true;
         showSettings();
-        
+
     }
 }
 
@@ -109,7 +126,7 @@ function showSettings() {
     textSize(20);
     textAlign(CENTER);
     text("Settings", width / 2, height / 2 - 120);
-    text("Volume", width / 2, height / 2 - 50); 
+    text("Volume", width / 2, height / 2 - 50);
 }
 
 function changeVolume() {
@@ -133,7 +150,7 @@ function keyPressed() {
 
 function draw() {
     if (menu) {
-        if(!settings){
+        if (!settings) {
             image(menuBackground, 0, 0, 900, 600);
         }
         filter(BLUR, 3);
@@ -143,7 +160,7 @@ function draw() {
         text("Press ENTER to start", 400, 300);
     } else {
         menuSound.stop();
-        if(!settings){
+        if (!settings) {
             clear();
             textFont(font);
             textSize(32);
@@ -154,7 +171,7 @@ function draw() {
             // Update and display the plant
             plant.update();
             plant.display();
-            
+
             // Update and display the projectiles
             for (let i = projectiles.length - 1; i >= 0; i--) {
                 projectiles[i].update();
@@ -172,13 +189,13 @@ function draw() {
                     }
                 }
             }
-            
+
             // Spawn zombies at regular intervals
             if (frames % zombieSpawnRate == 0) {
-                zombies.push(new Zombie(width, random(height)));
+                zombies.push(new Zombie(width, random(coords.rows)));
             }
             frames++;
-            
+
             // Update and display the zombies
             for (let i = zombies.length - 1; i >= 0; i--) {
                 zombies[i].update();
@@ -187,7 +204,7 @@ function draw() {
                     zombies.splice(i, 1);
                 }
             }
-        }else{
+        } else {
             filter(BLUR, 3);
         }
     }
