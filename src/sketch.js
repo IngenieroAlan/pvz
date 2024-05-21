@@ -1,24 +1,24 @@
 let menu;
 let font;
-let menuBackground;
+let bg;
+let seeds;
+let gameController;
+
+let POINTS = 1000;
 
 function preload() {
-    menuBackground = loadImage("public/assets/images/menuBackground.png");
+    bg = loadImage("public/assets/images/bg.png");
+    seeds = loadImage("public/assets/images/seeds.png");
     font = loadFont('public/assets/fonts/Samdan.ttf');
 }
 
 function setup() {
     createCanvas(900, 600);
-    menu = true;
-    if (menu == true) {
-        image(menuBackground, 0, 0, 900, 600);
-        filter(BLUR, 3);
-        textFont(font);
-        textSize(50);
-        textAlign(CENTER);
-        text("Press ENTER to start", 400, 300);
-    }
+    textFont(font);
+    textSize(32);
+    gameController = new GameController(bg, seeds, POINTS);
 }
 
 function draw() {
+    gameController.renderHud();
 }
