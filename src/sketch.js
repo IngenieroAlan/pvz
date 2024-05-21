@@ -13,6 +13,12 @@ let settings;
 let volumeSlider;
 let settingsPanel;
 let menuBackground;
+let button;
+let plant;
+let projectiles = [];
+let zombies = [];
+let zombieSpawnRate = 100; // Rate of zombie spawning
+let frames = 0;
 
 function preload() {
     soundFormats('mp3', 'ogg');
@@ -52,6 +58,17 @@ function setup() {
     volumeSlider.style('width', '100px');
     volumeSlider.input(changeVolume);
     volumeSlider.hide();
+    if (menu == true) {
+        image(menuBackground, 0, 0, 900, 600);
+        filter(BLUR, 3);
+        textFont(font);
+        textSize(50);
+        textAlign(CENTER);
+        text("Press ENTER to start", 400, 300);
+    }
+
+    plant = new Plant(50, height / 2);
+
 }
 
 function toggleMusic() {
@@ -123,6 +140,43 @@ function draw() {
             fill('white');
             image(gameBackground, 0, 0, 900, 600);
             gameController.renderHud();
+
+            // Update and display the plant
+            plant.update();
+            plant.display();
+            
+            // Update and display the projectiles
+            for (let i = projectiles.length - 1; i >= 0; i--) {
+                projectiles[i].update();
+                projectiles[i].display();
+                if (projectiles[i].offscreen()) {
+                    projectiles.splice(i, 1);
+                } else {
+                    // Check for collisions with zombies
+                    for (let j = zombies.length - 1; j >= 0; j--) {
+                        if (projectiles[i].hits(zombies[j])) {
+                            zombies.splice(j, 1);
+                            projectiles.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // Spawn zombies at regular intervals
+            if (frames % zombieSpawnRate == 0) {
+                zombies.push(new Zombie(width, random(height)));
+            }
+            frames++;
+            
+            // Update and display the zombies
+            for (let i = zombies.length - 1; i >= 0; i--) {
+                zombies[i].update();
+                zombies[i].display();
+                if (zombies[i].offscreen()) {
+                    zombies.splice(i, 1);
+                }
+            }
         }else{
             filter(BLUR, 3);
         }
