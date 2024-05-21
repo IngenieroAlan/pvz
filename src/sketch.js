@@ -12,19 +12,21 @@ let gameBackground;
 let settings;
 let volumeSlider;
 let settingsPanel;
+let menuBackground;
 
 function preload() {
     soundFormats('mp3', 'ogg');
     menuSound = loadSound('public/assets/music/main_menu_soundtrack.ogg');
     bg = loadImage("public/assets/images/bg.png");
     seeds = loadImage("public/assets/images/seeds.png");
+    menuBackground = loadImage("public/assets/images/menuBackground.png");
     gameBackground = loadImage("public/assets/images/game-background.png");
     font = loadFont('public/assets/fonts/Samdan.ttf');
 }
 
 function setup() {
     createCanvas(900, 600);
-    menu = false;
+    menu = true;
     settings = false;
 
     gameController = new GameController(bg, seeds, POINTS);
@@ -88,6 +90,20 @@ function changeVolume() {
     menuSound.setVolume(volume);
 }
 
+function keyPressed() {
+    if (keyCode === ENTER) {
+        menu = false;
+    } else if (keyCode === ESCAPE) {
+        settings = !settings;
+        if (settings) {
+            showSettings();
+        } else {
+            settingsPanel.hide();
+            volumeSlider.hide();
+        }
+    }
+}
+
 function draw() {
     if (menu) {
         if(!settings){
@@ -101,6 +117,7 @@ function draw() {
     } else {
         menuSound.stop();
         if(!settings){
+            clear();
             textFont(font);
             textSize(32);
             fill('white');
