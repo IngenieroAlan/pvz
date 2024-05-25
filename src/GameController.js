@@ -8,7 +8,7 @@ class GameController {
     }
     renderHud() {
         image(seeds, 160, 0, 320, 65);
-        text("POINTS: " + this.points, 10, 50);
+        text("POINTS: " + this.points, 80, 50);
     }
     spawnSun() {
         this.frameSinceLastSun++;

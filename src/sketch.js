@@ -16,6 +16,7 @@ let volumeSlider;
 let settingsPanel;
 let button;
 let plant;
+let sunflower;
 let projectiles = [];
 let zombies = [];
 let zombieSpawnRate = 100;
@@ -26,14 +27,14 @@ let coords = {
         125,
         225,
         325,
-        420,
+        395,
         520
     ],
     cols: [
         200,
         150,
         225,
-        175
+        160
     ]
 };
 
@@ -44,6 +45,7 @@ function preload() {
     gameSound = loadSound('public/assets/music/grasswalk.mp3');
     bg = loadImage("public/assets/images/bg.png");
     seeds = loadImage("public/assets/images/seeds.png");
+    sunflower = loadImage("public/assets/images/sunflower.png"); 
     menuBackground = loadImage("public/assets/images/menuBackground.png");
     gameBackground = loadImage("public/assets/images/game-background.png");
     font = loadFont('public/assets/fonts/Samdan.ttf');
@@ -86,8 +88,7 @@ function setup() {
         textAlign(CENTER);
         text("Press ENTER to start", 400, 300);
     }
-
-    plant = new Plant(coords.cols[3], coords.rows[3]);
+    plant = new Sunflower(sunflower,coords.cols[3], coords.rows[3]);
 
 }
 
@@ -171,10 +172,7 @@ function draw() {
             fill('white');
             image(gameBackground, 0, 0, 900, 600);
             gameController.renderHud();
-
-            // Update and display the plant
             plant.update();
-            plant.display();
 
             // Update and display the projectiles
             for (let i = projectiles.length - 1; i >= 0; i--) {
