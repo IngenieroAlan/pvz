@@ -6,15 +6,19 @@ let gameController;
 
 let POINTS = 1000;
 let btnMenu;
-let menuSound;
 let menuBackground;
 let settings;
 let btnSettings;
 let gameBackground;
-let gameSound;
 let volumeSlider;
 let settingsPanel;
 let button;
+
+//Music
+let btnMuteMusic;
+let menuSound;
+let gameSound;
+let musicActive;
 //Plants
 let plants = [];
 let sunflower;
@@ -64,15 +68,19 @@ function setup() {
     menu = true;
     settings = false;
     gameSoundAlreadyStart = false;
-
+    musicActive = true;
     gameController = new GameController(bg, seeds, POINTS);
 
     btnMenu = createButton('Play music');
-    btnMenu.position(width - 80, 20);
+    btnMenu.position(width - 150, 20);
     btnMenu.mousePressed(toggleMusic);
 
+    btnMuteMusic = createButton('Mute');
+    btnMuteMusic.position(width - 60, 20);
+    btnMuteMusic.mousePressed(toggleMute);
+
     btnSettings = createButton('Settings');
-    btnSettings.position(width - 160, 20);
+    btnSettings.position(width - 220, 20);
     btnSettings.mousePressed(toggleSettings);
 
     settingsPanel = createDiv();
@@ -98,7 +106,12 @@ function setup() {
     }
     plants.push(new Sunflower(sunflower,coords.cols[3], coords.rows[3]));
     plants.push(new PeaShooter(peaShooter,coords.cols[2], coords.rows[2],imgProjectiles));
+}
 
+function toggleMute(){
+    musicActive = !musicActive;
+    menuSound.pause();
+    gameSound.pause();
 }
 
 function toggleMusic() {
@@ -106,13 +119,17 @@ function toggleMusic() {
         if (menuSound.isPlaying()) {
             menuSound.pause();
         } else {
-            menuSound.play();
+            if(musicActive){
+                menuSound.play();
+            }
         }
     } else {
         if (gameSound.isPlaying()) {
             gameSound.pause();
         } else {
-            gameSound.play();
+            if (musicActive) {
+                gameSound.play();
+            }
         }
     }
 }
