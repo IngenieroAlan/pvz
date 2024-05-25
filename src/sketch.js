@@ -53,6 +53,7 @@ function setup() {
     createCanvas(900, 600);
     menu = true;
     settings = false;
+    gameSoundAlreadyStart = false;
 
     gameController = new GameController(bg, seeds, POINTS);
 
@@ -93,13 +94,13 @@ function setup() {
 function toggleMusic() {
     if (menu) {
         if (menuSound.isPlaying()) {
-            menuSound.stop();
+            menuSound.pause();
         } else {
             menuSound.play();
         }
     } else {
         if (gameSound.isPlaying()) {
-            gameSound.stop();
+            gameSound.pause();
         } else {
             gameSound.play();
         }
@@ -137,6 +138,9 @@ function changeVolume() {
 function keyPressed() {
     if (keyCode === ENTER) {
         menu = false;
+        if(!menu && !gameSound.isPlaying()){
+            gameSound.play();
+        }
     } else if (keyCode === ESCAPE) {
         settings = !settings;
         if (settings) {
