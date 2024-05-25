@@ -90,16 +90,51 @@ class PeaShooter extends Plant {
         this.changeFrame();
       }
       this.projectiles.forEach((projectile) => projectile.update());
-      // Eliminar proyectiles que están fuera de la pantalla
       this.projectiles = this.projectiles.filter((projectile) => !projectile.offscreen());
     }
   
-    // Detener el intervalo cuando se destruye la planta
     remove() {
       clearInterval(this.shootInterval);
     }
   }
   
+  class Nut extends Plant {
+    constructor(imgPlant, x, y) {
+      super(imgPlant, x, y);
+      this.w = 50;
+      this.h = 50;
+      this.frames = [
+        imgPlant.get(0, 0, 25, 31.5),
+        imgPlant.get(25, 0, 25, 31.5), 
+        imgPlant.get(50, 0, 25, 31.5), 
+        imgPlant.get(75, 0, 25, 31.5),
+        imgPlant.get(100, 0, 25, 31.5),
+      ];
+      this.currentFrame = 0;
+      this.direction = 1;
+      this.health = 300;
+    }
+  
+    display() {
+      image(this.frames[this.currentFrame], this.x, this.y, this.w, this.h);
+    }
+  
+    changeFrame() {
+      this.currentFrame += this.direction;
+      if (this.currentFrame === this.frames.length - 1) {
+        this.direction = -1;
+      } else if (this.currentFrame === 0) {
+        this.direction = 1;
+      }
+    }
+  
+    update() {
+      this.display();
+      if (frameCount % 30 === 0) {
+        this.changeFrame();
+      }
+    }
+  }  
 
 // Projectile class
 class Projectile {

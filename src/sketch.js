@@ -23,6 +23,9 @@ let musicActive;
 let plants = [];
 let sunflower;
 let peaShooter;
+let nut;
+let repeater;
+let potatomine;
 //Projectiles
 let imgProjectiles;
 let projectiles = [];
@@ -55,8 +58,13 @@ function preload() {
     gameSound = loadSound('public/assets/music/grasswalk.mp3');
     bg = loadImage("public/assets/images/bg.png");
     seeds = loadImage("public/assets/images/seeds.png");
+    // PLANTS SPRITES
     sunflower = loadImage("public/assets/images/sunflower.png");
     peaShooter = loadImage("public/assets/images/peashooter.png");
+    repeater = loadImage("public/assets/images/repeater.png");
+    nut = loadImage("public/assets/images/nut.png");
+    potatomine = loadImage("public/assets/images/potatomine.png");
+
     imgProjectiles = loadImage("public/assets/images/bullets.png");
     menuBackground = loadImage("public/assets/images/menuBackground.png");
     gameBackground = loadImage("public/assets/images/game-background.png");
@@ -106,6 +114,7 @@ function setup() {
     }
     plants.push(new Sunflower(sunflower,coords.cols[3], coords.rows[3]));
     plants.push(new PeaShooter(peaShooter,coords.cols[2], coords.rows[2],imgProjectiles));
+    plants.push(new Nut(nut,coords.cols[1], coords.rows[1]));
 }
 
 function toggleMute(){
