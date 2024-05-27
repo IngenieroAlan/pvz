@@ -115,6 +115,7 @@ function setup() {
     plants.push(new Sunflower(sunflower,coords.cols[3], coords.rows[3]));
     plants.push(new PeaShooter(peaShooter,coords.cols[2], coords.rows[2],imgProjectiles));
     plants.push(new Nut(nut,coords.cols[1], coords.rows[1]));
+    plants.push(new PotatoMine(potatomine, coords.cols[2], coords.rows[3]));
 }
 
 function toggleMute(){

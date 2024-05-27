@@ -41,7 +41,6 @@ class Sunflower extends Plant {
     }
   }
 }
-
 class PeaShooter extends Plant {
   constructor(imgPlant, x, y, imgProjectile) {
     super(imgPlant, x, y);
@@ -99,7 +98,6 @@ class PeaShooter extends Plant {
     clearInterval(this.shootInterval);
   }
 }
-
 class Nut extends Plant {
   constructor(imgPlant, x, y) {
     super(imgPlant, x, y);
@@ -155,6 +153,56 @@ class Nut extends Plant {
   update() {
     this.display();
     if (frameCount % 14 === 0) {
+      this.changeFrame();
+    }
+  }
+}
+class PotatoMine extends Plant {
+  constructor(imgPlant, x, y) {
+    super(imgPlant, x, y);
+    this.w = 40;
+    this.h = 45;
+    this.frameInactive = imgPlant.get(0, 0, 17, 25); // Un solo cuadro para el estado inactivo
+    this.framesActive = [
+      imgPlant.get(18, 0, 20.5 , 25),
+      imgPlant.get(38.5, 0, 28.5 , 27.5),
+      imgPlant.get(100, 0, 21, 25),
+      imgPlant.get(125, 0, 21, 25),
+      imgPlant.get(150, 0, 21, 25),
+      imgPlant.get(175, 0, 21, 25),
+    ];
+    this.currentFrame = 0;
+    this.direction = 1;
+    this.activated = true;
+    this.plantTime = millis(); // Registra el tiempo en que se plantó
+  }
+
+  display() {
+    if (this.activated) {
+      //image(this.framesActive[this.currentFrame], this.x, this.y, this.w, this.h);
+      image(this.framesActive[1], this.x, this.y, this.w, this.h);
+    } else {
+      image(this.frameInactive, this.x, this.y, this.w, this.h);
+    }
+  }
+
+  changeFrame() {
+    this.currentFrame += this.direction;
+    if (this.currentFrame === this.framesActive.length - 1) {
+      this.direction = -1;
+    } else if (this.currentFrame === 0) {
+      this.direction = 1;
+    }
+  }
+
+  update() {
+    if (!this.activated && millis() - this.plantTime >= 15000) { // 15 segundos en milisegundos
+      this.activated = true;
+      this.currentFrame = 0; // Reinicia la animación al cambiar a activo
+      this.direction = 1;
+    }
+    this.display();
+    if (this.activated && frameCount % 30 === 0) {
       this.changeFrame();
     }
   }
