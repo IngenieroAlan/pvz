@@ -31,6 +31,7 @@ let imgProjectiles;
 let projectiles = [];
 
 //Zombies
+let imgZombie;
 let zombies = [];
 let zombieSpawnRate = 100;
 let frames = 0;
@@ -64,6 +65,9 @@ function preload() {
     repeater = loadImage("public/assets/images/repeater.png");
     nut = loadImage("public/assets/images/nut.png");
     potatomine = loadImage("public/assets/images/potatomine.png");
+
+    // ZOMBIES SPRITES
+    imgZombie = loadImage("public/assets/images/zombie.png");
 
     imgProjectiles = loadImage("public/assets/images/bullets.png");
     menuBackground = loadImage("public/assets/images/menuBackground.png");
