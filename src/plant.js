@@ -242,11 +242,16 @@ class Projectile {
   }
 
   hits(zombie) {
-    return (
+    if (
       this.x + this.r > zombie.x &&
       this.x - this.r < zombie.x + zombie.w &&
       this.y + this.r > zombie.y &&
       this.y - this.r < zombie.y + zombie.h
-    )
+    ) {
+      // Remove the projectile from the array and remove animation
+      projectiles.splice(projectiles.indexOf(this), 1);
+      this.display = () => {};
+      return true;
+    } else return false;
   }
 }
