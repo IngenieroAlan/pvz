@@ -32,6 +32,8 @@ let projectiles = [];
 
 //Zombies
 let imgZombie;
+let imgConeZombie;
+let imgBucketZombie;
 let zombies = [];
 let zombieSpawnRate = 100;
 let frames = 0;
@@ -68,6 +70,8 @@ function preload() {
 
     // ZOMBIES SPRITES
     imgZombie = loadImage("public/assets/images/zombie.png");
+    imgConeZombie = loadImage("public/assets/images/conezombie.png");
+    imgBucketZombie = loadImage("public/assets/images/bucketzombie.png");
 
     imgProjectiles = loadImage("public/assets/images/bullets.png");
     menuBackground = loadImage("public/assets/images/menuBackground.png");
@@ -236,7 +240,9 @@ function draw() {
 
             // Spawn zombies at regular intervals
             if (frames % zombieSpawnRate == 0) {
-                zombies.push(new Zombie(width, random(coords.rows)));
+                zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows)));
+                zombies.push(new ConeHeadZombie(imgConeZombie, width, random(coords.rows)));
+                zombies.push(new BucketHeadZombie(imgBucketZombie, width, random(coords.rows)));
             }
             frames++;
 
@@ -244,9 +250,6 @@ function draw() {
             for (let i = zombies.length - 1; i >= 0; i--) {
                 zombies[i].update();
                 zombies[i].display();
-                if (zombies[i].offscreen()) {
-                    zombies.splice(i, 1);
-                }
             }
         } else {
             filter(BLUR, 3);

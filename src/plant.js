@@ -180,8 +180,8 @@ class PotatoMine extends Plant {
 
   display() {
     if (this.activated) {
-      //image(this.framesActive[this.currentFrame], this.x, this.y, this.w, this.h);
-      image(this.framesActive[7], this.x, this.y, this.w, this.h);
+      image(this.framesActive[this.currentFrame], this.x, this.y, this.w, this.h);
+      //image(this.framesActive[7], this.x, this.y, this.w, this.h);
     } else {
       image(this.frameInactive, this.x, this.y, this.w, this.h);
     }
