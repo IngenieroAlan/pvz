@@ -231,21 +231,6 @@ function draw() {
                 p.update();
             });
 
-            // Check for collisions between projectiles and zombies
-            if (projectiles.length > 0) {
-                for (let i = projectiles.length - 1; i >= 0; i--) {
-                    // Check for collisions with zombies
-                    for (let j = zombies.length - 1; j >= 0; j--) {
-                        if (projectiles[i].hits(zombies[j])) {
-                            zombies[j].takeDamage(10);
-                            projectiles.splice(i, 1);
-                            console.log(projectiles.length);
-                            break;
-                        }
-                    }
-                }
-            }
-
             // Spawn zombies at regular intervals
             if (frames % zombieSpawnRate == 0) {
                 zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows)));
@@ -254,6 +239,14 @@ function draw() {
             }
             frames++;
 
+            if (gameController.lives <= 0) {
+                noLoop();
+                fill('black');
+                textSize(50);
+                textAlign(CENTER);
+                text("GAME OVER", width / 2, height / 2);
+            }
+
             // Update and display the zombies
             for (let i = zombies.length - 1; i >= 0; i--) {
                 zombies[i].update();
@@ -261,26 +254,6 @@ function draw() {
                 if (zombies[i].x < 0) {
                     zombies.splice(i, 1);
                     gameController.lives--;
-                }
-
-                if (gameController.lives <= 0) {
-                    noLoop();
-                    fill('black');
-                    textSize(50);
-                    textAlign(CENTER);
-                    text("GAME OVER", width / 2, height / 2);
-                }
-
-                // Check for collisions between zombies and plants
-                for (let j = 0; j < plants.length; j++) {
-                    if (zombies[i].hitsPlant(plants[j])) {
-                        zombies[i].speed = 0;
-                        if (frameCount % 60 === 0) {
-                            plants[j].takeDamage(zombies[i].damage);
-                        }
-                    } else {
-                        zombies[i].speed = zombies[i].aux_speed;
-                    }
                 }
             }
         } else {

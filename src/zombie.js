@@ -35,6 +35,7 @@ class Zombie {
       this.changeFrame();
     }
     this.display();
+    this.hitsPlant();
   }
 
   takeDamage(damage) {
@@ -45,11 +46,22 @@ class Zombie {
     }
   }
 
-  hitsPlant(plant) {
-    return this.x < plant.x + plant.w &&
-      this.x + this.w > plant.x &&
-      this.y < plant.y + plant.h &&
-      this.y + this.h > plant.y;
+  hitsPlant() {
+    for (let i = 0; i < plants.length; i++) {
+      if (
+        this.x < plants[i].x + plants[i].w &&
+        this.x + this.w > plants[i].x &&
+        this.y < plants[i].y + plants[i].h &&
+        this.y + this.h > plants[i].y
+      ) {
+        this.speed = 0;
+        if (frameCount % 60 === 0) {
+          plants[i].takeDamage(this.damage);
+        }
+      } else {
+        this.speed = this.aux_speed;
+      }
+    }
   }
 
 

@@ -224,13 +224,14 @@ class Projectile {
     this.y = y;
     this.r = 15;
     this.speed = 5;
-    this.damage = 10;
+    this.damage = 1;
     this.imgProjectile = imgProjectile;
     projectiles.push(this);
   }
 
   update() {
     this.x += this.speed;
+    this.hits();
   }
 
   display() {
@@ -241,17 +242,19 @@ class Projectile {
     return this.x > width;
   }
 
-  hits(zombie) {
-    if (
-      this.x + this.r > zombie.x &&
-      this.x - this.r < zombie.x + zombie.w &&
-      this.y + this.r > zombie.y &&
-      this.y - this.r < zombie.y + zombie.h
-    ) {
-      // Remove the projectile from the array and remove animation
-      projectiles.splice(projectiles.indexOf(this), 1);
-      this.display = () => {};
-      return true;
-    } else return false;
+  hits() {
+    zombies.forEach((zombie) => {
+      if (
+        this.x + this.r > zombie.x &&
+        this.x - this.r < zombie.x + zombie.w &&
+        this.y + this.r > zombie.y &&
+        this.y - this.r < zombie.y + zombie.h
+      ) {
+        // Remove the projectile from the array and remove animation
+        projectiles.splice(projectiles.indexOf(this), 1);
+        this.display = () => { };
+        zombie.takeDamage(this.damage);
+      }
+    });
   }
 }
