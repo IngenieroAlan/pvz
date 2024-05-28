@@ -165,11 +165,12 @@ class PotatoMine extends Plant {
     this.frameInactive = imgPlant.get(0, 0, 17, 25); // Un solo cuadro para el estado inactivo
     this.framesActive = [
       imgPlant.get(18, 0, 20.5 , 25),
-      imgPlant.get(38.5, 0, 28.5 , 27.5),
-      imgPlant.get(100, 0, 21, 25),
-      imgPlant.get(125, 0, 21, 25),
-      imgPlant.get(150, 0, 21, 25),
-      imgPlant.get(175, 0, 21, 25),
+      imgPlant.get(38.5, 0, 29 , 27.5),
+      imgPlant.get(67.5, 0, 28.5 , 28),
+      imgPlant.get(95.5, 0, 28.5 , 28), // x,y, w, h
+      imgPlant.get(125, 0, 26, 25),
+      imgPlant.get(152, 0, 28.5, 28),
+      imgPlant.get(180, 0, 28.5, 28),
     ];
     this.currentFrame = 0;
     this.direction = 1;
@@ -180,7 +181,7 @@ class PotatoMine extends Plant {
   display() {
     if (this.activated) {
       //image(this.framesActive[this.currentFrame], this.x, this.y, this.w, this.h);
-      image(this.framesActive[1], this.x, this.y, this.w, this.h);
+      image(this.framesActive[7], this.x, this.y, this.w, this.h);
     } else {
       image(this.frameInactive, this.x, this.y, this.w, this.h);
     }
