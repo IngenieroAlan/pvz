@@ -134,7 +134,7 @@ class Nut extends Plant {
     ];
     this.currentFrame = 0;
     this.direction = 1;
-    this.health = 100;
+    this.health = 300;
   }
 
   display() {
@@ -182,7 +182,7 @@ class PotatoMine extends Plant {
     ];
     this.currentFrame = 0;
     this.direction = 1;
-    this.activated = true;
+    this.activated = false;
     this.plantTime = millis(); // Registra el tiempo en que se plantó
   }
 
