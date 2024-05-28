@@ -40,17 +40,22 @@ let frames = 0;
 
 let coords = {
     rows: [
-        125,
-        225,
-        325,
-        395,
-        520
+        100,
+        200,
+        300,
+        400,
+        500,
     ],
     cols: [
-        200,
-        150,
         225,
-        160
+        280,
+        360,
+        440,
+        520,
+        580,
+        640,
+        720,
+        780,
     ]
 };
 
@@ -120,13 +125,19 @@ function setup() {
         textAlign(CENTER);
         text("Press ENTER to start", 400, 300);
     }
-    plants.push(new Sunflower(sunflower,coords.cols[3], coords.rows[3]));
-    plants.push(new PeaShooter(peaShooter,coords.cols[2], coords.rows[2],imgProjectiles));
-    plants.push(new Nut(nut,coords.cols[1], coords.rows[1]));
-    plants.push(new PotatoMine(potatomine, coords.cols[2], coords.rows[3]));
+    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3]));
+    plants.push(new PeaShooter(peaShooter, coords.cols[0], coords.rows[0], imgProjectiles));
+    plants.push(new PeaShooter(peaShooter, coords.cols[1], coords.rows[1], imgProjectiles));
+    plants.push(new PeaShooter(peaShooter, coords.cols[2], coords.rows[2], imgProjectiles));
+    plants.push(new PeaShooter(peaShooter, coords.cols[3], coords.rows[3], imgProjectiles));
+    plants.push(new PeaShooter(peaShooter, coords.cols[4], coords.rows[4], imgProjectiles));
+    plants.push(new Nut(nut, coords.cols[8], coords.rows[1]));
+    plants.push(new Nut(nut, coords.cols[6], coords.rows[2]));
+    plants.push(new Nut(nut, coords.cols[5], coords.rows[3]));
+    plants.push(new PotatoMine(potatomine, coords.cols[7], coords.rows[3]));
 }
 
-function toggleMute(){
+function toggleMute() {
     musicActive = !musicActive;
     menuSound.pause();
     gameSound.pause();
@@ -137,7 +148,7 @@ function toggleMusic() {
         if (menuSound.isPlaying()) {
             menuSound.pause();
         } else {
-            if(musicActive){
+            if (musicActive) {
                 menuSound.play();
             }
         }
@@ -183,7 +194,7 @@ function changeVolume() {
 function keyPressed() {
     if (keyCode === ENTER) {
         menu = false;
-        if(!menu && !gameSound.isPlaying()){
+        if (!menu && !gameSound.isPlaying()) {
             gameSound.play();
         }
     } else if (keyCode === ESCAPE) {
@@ -214,24 +225,21 @@ function draw() {
             textFont(font);
             textSize(32);
             fill('white');
-            image(gameBackground, 0, 0, 900, 600);
+            image(gameBackground, 0, 0, 1200, 600);
             gameController.renderHud();
             plants.forEach(p => {
                 p.update();
             });
 
-            // Update and display the projectiles
-            for (let i = projectiles.length - 1; i >= 0; i--) {
-                projectiles[i].update();
-                projectiles[i].display();
-                if (projectiles[i].offscreen()) {
-                    projectiles.splice(i, 1);
-                } else {
+            // Check for collisions between projectiles and zombies
+            if (projectiles.length > 0) {
+                for (let i = projectiles.length - 1; i >= 0; i--) {
                     // Check for collisions with zombies
                     for (let j = zombies.length - 1; j >= 0; j--) {
                         if (projectiles[i].hits(zombies[j])) {
-                            zombies.splice(j, 1);
+                            zombies[j].takeDamage(10);
                             projectiles.splice(i, 1);
+                            console.log(projectiles.length);
                             break;
                         }
                     }
@@ -250,6 +258,30 @@ function draw() {
             for (let i = zombies.length - 1; i >= 0; i--) {
                 zombies[i].update();
                 zombies[i].display();
+                if (zombies[i].x < 0) {
+                    zombies.splice(i, 1);
+                    gameController.lives--;
+                }
+
+                if (gameController.lives <= 0) {
+                    noLoop();
+                    fill('black');
+                    textSize(50);
+                    textAlign(CENTER);
+                    text("GAME OVER", width / 2, height / 2);
+                }
+
+                // Check for collisions between zombies and plants
+                for (let j = 0; j < plants.length; j++) {
+                    if (zombies[i].hitsPlant(plants[j])) {
+                        zombies[i].speed = 0;
+                        if (frameCount % 60 === 0) {
+                            plants[j].takeDamage(zombies[i].damage);
+                        }
+                    } else {
+                        zombies[i].speed = zombies[i].aux_speed;
+                    }
+                }
             }
         } else {
             filter(BLUR, 3);

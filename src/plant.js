@@ -5,6 +5,14 @@ class Plant {
     this.imgPlant = imgPlant;
     this.health = 100;
   }
+
+  takeDamage(damage) {
+    this.health -= damage;
+    if (this.health <= 0) {
+      plants.splice(plants.indexOf(this), 1);
+    }
+  }
+
 }
 class Sunflower extends Plant {
   constructor(imgPlant, x, y) {
@@ -130,13 +138,13 @@ class Nut extends Plant {
   }
 
   display() {
-    if(this.health > 200){
+    if (this.health > 200) {
       image(this.frames[this.currentFrame], this.x, this.y, this.w, this.h);
     }
-    if(this.health > 100 && this.health <= 200){
+    if (this.health > 100 && this.health <= 200) {
       image(this.fase2Frames[this.currentFrame], this.x, this.y, this.w, this.h);
     }
-    if(this.health <= 100){
+    if (this.health <= 100) {
       image(this.fase3Frames[this.currentFrame], this.x, this.y, this.w, this.h);
     }
   }
@@ -164,10 +172,10 @@ class PotatoMine extends Plant {
     this.h = 45;
     this.frameInactive = imgPlant.get(0, 0, 17, 25); // Un solo cuadro para el estado inactivo
     this.framesActive = [
-      imgPlant.get(18, 0, 20.5 , 25),
-      imgPlant.get(38.5, 0, 29 , 27.5),
-      imgPlant.get(67.5, 0, 28.5 , 28),
-      imgPlant.get(95.5, 0, 28.5 , 28), // x,y, w, h
+      imgPlant.get(18, 0, 20.5, 25),
+      imgPlant.get(38.5, 0, 29, 27.5),
+      imgPlant.get(67.5, 0, 28.5, 28),
+      imgPlant.get(95.5, 0, 28.5, 28), // x,y, w, h
       imgPlant.get(125, 0, 26, 25),
       imgPlant.get(152, 0, 28.5, 28),
       imgPlant.get(180, 0, 28.5, 28),
@@ -216,7 +224,9 @@ class Projectile {
     this.y = y;
     this.r = 15;
     this.speed = 5;
+    this.damage = 10;
     this.imgProjectile = imgProjectile;
+    projectiles.push(this);
   }
 
   update() {
@@ -232,7 +242,11 @@ class Projectile {
   }
 
   hits(zombie) {
-    let d = dist(this.x, this.y, zombie.x, zombie.y);
-    return d < this.r + zombie.r;
+    return (
+      this.x + this.r > zombie.x &&
+      this.x - this.r < zombie.x + zombie.w &&
+      this.y + this.r > zombie.y &&
+      this.y - this.r < zombie.y + zombie.h
+    )
   }
 }

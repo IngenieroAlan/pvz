@@ -5,6 +5,7 @@ class GameController {
         this.points = points;
         this.sun = [];
         this.frameSinceLastSun = 0;
+        this.lives = 3;
     }
     renderHud() {
         image(seeds, 160, 0, 320, 65);
