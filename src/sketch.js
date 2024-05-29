@@ -251,7 +251,7 @@ function draw() {
             for (let i = zombies.length - 1; i >= 0; i--) {
                 zombies[i].update();
                 zombies[i].display();
-                if (zombies[i].x < 0) {
+                if (zombies[i].x < 200) {
                     zombies.splice(i, 1);
                     gameController.lives--;
                 }
