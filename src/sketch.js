@@ -29,6 +29,8 @@ let potatomine;
 //Projectiles
 let imgProjectiles;
 let projectiles = [];
+//Sun
+let sunSprite;
 
 //Zombies
 let imgZombie;
@@ -72,6 +74,9 @@ function preload() {
     repeater = loadImage("public/assets/images/repeater.png");
     nut = loadImage("public/assets/images/nut.png");
     potatomine = loadImage("public/assets/images/potatomine.png");
+
+    //SUN SPRITES
+    sunSprite = loadImage("public/assets/images/sun.png")
 
     // ZOMBIES SPRITES
     imgZombie = loadImage("public/assets/images/zombie.png");
@@ -125,7 +130,7 @@ function setup() {
         textAlign(CENTER);
         text("Press ENTER to start", 400, 300);
     }
-    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3]));
+    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3],sunSprite));
     plants.push(new PeaShooter(peaShooter, coords.cols[0], coords.rows[0], imgProjectiles));
     plants.push(new PeaShooter(peaShooter, coords.cols[1], coords.rows[1], imgProjectiles));
     plants.push(new PeaShooter(peaShooter, coords.cols[2], coords.rows[2], imgProjectiles));

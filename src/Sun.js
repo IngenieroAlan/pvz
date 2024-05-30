@@ -1,8 +1,22 @@
 class Sun {
-    constructor(sprite) {
-        this.sprite = sprite;
+    constructor(sprite, x, y) {
+      this.sprite = sprite;
+      this.x = x;
+      this.y = y-50;
+      this.targetY = y-10;
+      this.speed = 1;
     }
+  
     render() {
-        image(this.sprite, 0, 0, width, height, 0, 0, this.sprite.width, this.sprite.height, COVER);
+        //rect(this.x, this.y, 30, 30);
+        image(this.sprite, this.x, this.y, 40, 40);
     }
-}
+  
+    update() {
+      if (this.y < this.targetY) {
+        this.y += this.speed;
+      }
+      this.render();
+    }
+  }
+  

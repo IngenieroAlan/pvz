@@ -15,7 +15,7 @@ class Plant {
 
 }
 class Sunflower extends Plant {
-  constructor(imgPlant, x, y) {
+  constructor(imgPlant, x, y, sunSprite) {
     super(imgPlant, x, y);
     this.w = 50;
     this.h = 50;
@@ -27,6 +27,9 @@ class Sunflower extends Plant {
     ];
     this.currentFrame = 0;
     this.direction = 1;
+    this.sunSprite = sunSprite;
+    this.suns = [];
+    this.lastSunTime = millis();
   }
 
   display() {
@@ -42,13 +45,24 @@ class Sunflower extends Plant {
     }
   }
 
+  generateSun() {
+    let currentTime = millis();
+    if (currentTime - this.lastSunTime >= 5000) {
+      this.suns.push(new Sun(this.sunSprite, this.x + 10, this.y + this.h));
+      this.lastSunTime = currentTime;
+    }
+  }
+
   update() {
     this.display();
+    this.generateSun();
     if (frameCount % 10 === 0) {
       this.changeFrame();
     }
+    this.suns.forEach(sun => sun.update());
   }
 }
+
 class PeaShooter extends Plant {
   constructor(imgPlant, x, y, imgProjectile) {
     super(imgPlant, x, y);
@@ -170,7 +184,7 @@ class PotatoMine extends Plant {
     super(imgPlant, x, y);
     this.w = 40;
     this.h = 45;
-    this.frameInactive = imgPlant.get(0, 0, 17, 25); // Un solo cuadro para el estado inactivo
+    this.frameInactive = imgPlant.get(0, 0, 17, 25);
     this.framesActive = [
       imgPlant.get(18, 0, 20.5, 25),
       imgPlant.get(38.5, 0, 29, 27.5),
@@ -183,7 +197,7 @@ class PotatoMine extends Plant {
     this.currentFrame = 0;
     this.direction = 1;
     this.activated = false;
-    this.plantTime = millis(); // Registra el tiempo en que se plantó
+    this.plantTime = millis();
   }
 
   display() {
