@@ -60,7 +60,8 @@ let coords = {
         780,
     ]
 };
-
+let gameWidth = 900;
+let gameHeight = 600;
 
 function preload() {
     soundFormats('mp3', 'ogg');
@@ -90,7 +91,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(900, 600);
+    createCanvas(gameWidth, gameHeight);
     menu = true;
     settings = false;
     gameSoundAlreadyStart = false;
@@ -213,6 +214,10 @@ function keyPressed() {
     }
 }
 
+function mousePressed() {
+    gameController.checkSunClicked(mouseX, mouseY);
+}
+
 function draw() {
     if (menu) {
         if (!settings) {
@@ -261,6 +266,8 @@ function draw() {
                     gameController.lives--;
                 }
             }
+            gameController.updateSuns(); // Update suns
+            gameController.spawnSun(sunSprite,gameWidth,gameHeight); // Spawn new suns
         } else {
             filter(BLUR, 3);
         }
