@@ -61,6 +61,15 @@ class Sunflower extends Plant {
     }
     this.suns.forEach(sun => sun.update());
   }
+  checkSunClicked(mx, my, GameController) {
+    for (let i = this.suns.length - 1; i >= 0; i--) {
+        if (this.suns[i].isClicked(mx, my)) {
+            this.suns.splice(i, 1);
+            GameController.points += 50;
+            break;
+        }
+    }
+  }
 }
 
 class PeaShooter extends Plant {

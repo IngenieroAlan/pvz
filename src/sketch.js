@@ -216,6 +216,11 @@ function keyPressed() {
 
 function mousePressed() {
     gameController.checkSunClicked(mouseX, mouseY);
+    plants.forEach(plant => {
+        if (plant instanceof Sunflower) {
+            plant.checkSunClicked(mouseX, mouseY, gameController);
+        }
+    });
 }
 
 function draw() {
