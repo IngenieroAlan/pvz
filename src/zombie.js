@@ -1,7 +1,8 @@
 // Clase padre
 class Zombie {
-  constructor(imgZombie, x, y, health, speed) {
+  constructor(imgZombie, x, y, health, speed, biteSound) {
     this.imgZombie = imgZombie;
+    this.biteSound = biteSound;
     this.x = x;
     this.y = y;
     this.health = health;
@@ -56,6 +57,7 @@ class Zombie {
       ) {
         this.speed = 0;
         if (frameCount % 60 === 0) {
+          this.biteSound.play();
           plants[i].takeDamage(this.damage);
         }
       } else {
@@ -68,13 +70,13 @@ class Zombie {
 
 }
 class DefaultZombie extends Zombie {
-  constructor(imgZombie, x, y) {
-    super(imgZombie, x, y, 100, .5);
+  constructor(imgZombie, x, y, biteSound) {
+    super(imgZombie, x, y, 100, .5, biteSound);
   }
 }
 class ConeHeadZombie extends Zombie {
-  constructor(imgZombie, x, y) {
-    super(imgZombie, x, y, 200, .5);
+  constructor(imgZombie, x, y, biteSound) {
+    super(imgZombie, x, y, 200, .5, biteSound);
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 35, 55),
@@ -84,8 +86,8 @@ class ConeHeadZombie extends Zombie {
   }
 }
 class BucketHeadZombie extends Zombie {
-  constructor(imgZombie, x, y) {
-    super(imgZombie, x, y, 300, 0.25);
+  constructor(imgZombie, x, y, biteSound) {
+    super(imgZombie, x, y, 300, 0.25, biteSound);
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 45, 55),

@@ -4,7 +4,7 @@ let bg;
 let seeds;
 let gameController;
 
-let POINTS = 1000;
+let POINTS = 50;
 let btnMenu;
 let menuBackground;
 let settings;
@@ -37,6 +37,7 @@ let getSunSound;
 let imgZombie;
 let imgConeZombie;
 let imgBucketZombie;
+let zombieBite;
 let zombies = [];
 let zombieSpawnRate = 100;
 let frames = 0;
@@ -85,6 +86,7 @@ function preload() {
     imgZombie = loadImage("public/assets/images/zombie.png");
     imgConeZombie = loadImage("public/assets/images/conezombie.png");
     imgBucketZombie = loadImage("public/assets/images/bucketzombie.png");
+    zombieBite = loadSound("public/assets/music/zombiebite.ogg");
 
     imgProjectiles = loadImage("public/assets/images/bullets.png");
     menuBackground = loadImage("public/assets/images/menuBackground.png");
@@ -250,9 +252,9 @@ function draw() {
 
             // Spawn zombies at regular intervals
             if (frames % zombieSpawnRate == 0) {
-                zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows)));
-                zombies.push(new ConeHeadZombie(imgConeZombie, width, random(coords.rows)));
-                zombies.push(new BucketHeadZombie(imgBucketZombie, width, random(coords.rows)));
+                zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows),zombieBite));
+                zombies.push(new ConeHeadZombie(imgConeZombie, width, random(coords.rows),zombieBite));
+                zombies.push(new BucketHeadZombie(imgBucketZombie, width, random(coords.rows),zombieBite));
             }
             frames++;
 
