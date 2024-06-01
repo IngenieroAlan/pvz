@@ -89,7 +89,7 @@ class BucketHeadZombie extends Zombie {
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 45, 55),
-      imgZombie.get(90, 0, 45, 55),
+      imgZombie.get(80, 0, 45, 55),
       imgZombie.get(118, 0, 45, 55),
     ];
   }
