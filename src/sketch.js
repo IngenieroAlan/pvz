@@ -31,6 +31,7 @@ let imgProjectiles;
 let projectiles = [];
 //Sun
 let sunSprite;
+let getSunSound;
 
 //Zombies
 let imgZombie;
@@ -78,6 +79,7 @@ function preload() {
 
     //SUN SPRITES
     sunSprite = loadImage("public/assets/images/sun.png")
+    getSunSound = loadSound("public/assets/music/getsun.ogg");
 
     // ZOMBIES SPRITES
     imgZombie = loadImage("public/assets/images/zombie.png");
@@ -96,7 +98,7 @@ function setup() {
     settings = false;
     gameSoundAlreadyStart = false;
     musicActive = true;
-    gameController = new GameController(bg, seeds, POINTS);
+    gameController = new GameController(bg, seeds, POINTS, getSunSound);
 
     btnMenu = createButton('Play music');
     btnMenu.position(width - 150, 20);
@@ -131,7 +133,7 @@ function setup() {
         textAlign(CENTER);
         text("Press ENTER to start", 400, 300);
     }
-    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3],sunSprite));
+    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3],sunSprite,getSunSound));
     plants.push(new PeaShooter(peaShooter, coords.cols[0], coords.rows[0], imgProjectiles));
     plants.push(new PeaShooter(peaShooter, coords.cols[1], coords.rows[1], imgProjectiles));
     plants.push(new PeaShooter(peaShooter, coords.cols[2], coords.rows[2], imgProjectiles));

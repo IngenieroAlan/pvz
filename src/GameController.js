@@ -1,9 +1,10 @@
 class GameController {
-    constructor(bg, seeds, points) {
+    constructor(bg, seeds, points, sunSounds) {
         this.bg = bg;
         this.seeds = seeds;
         this.points = points;
         this.suns = [];
+        this.sunSounds = sunSounds;
         this.frameSinceLastSun = 0;
         this.lives = 3;
     }
@@ -32,8 +33,9 @@ class GameController {
     checkSunClicked(mx, my) {
         for (let i = this.suns.length - 1; i >= 0; i--) {
             if (this.suns[i].isClicked(mx, my)) {
+                this.sunSounds.play();
                 this.suns.splice(i, 1);
-                this.points += 50; // Increment points for clicking a sun
+                this.points += 50;
                 break;
             }
         }

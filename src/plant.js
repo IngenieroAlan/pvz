@@ -15,7 +15,7 @@ class Plant {
 
 }
 class Sunflower extends Plant {
-  constructor(imgPlant, x, y, sunSprite) {
+  constructor(imgPlant, x, y, sunSprite, sunSound) {
     super(imgPlant, x, y);
     this.w = 50;
     this.h = 50;
@@ -28,6 +28,7 @@ class Sunflower extends Plant {
     this.currentFrame = 0;
     this.direction = 1;
     this.sunSprite = sunSprite;
+    this.sunSound = sunSound;
     this.suns = [];
     this.lastSunTime = millis();
   }
@@ -65,6 +66,7 @@ class Sunflower extends Plant {
     for (let i = this.suns.length - 1; i >= 0; i--) {
         if (this.suns[i].isClicked(mx, my)) {
             this.suns.splice(i, 1);
+            this.sunSound.play();
             GameController.points += 50;
             break;
         }
