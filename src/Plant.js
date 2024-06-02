@@ -214,7 +214,6 @@ class PotatoMine extends Plant {
   display() {
     if (this.activated) {
       image(this.framesActive[this.currentFrame], this.x, this.y, this.w, this.h);
-      //image(this.framesActive[7], this.x, this.y, this.w, this.h);
     } else {
       image(this.frameInactive, this.x, this.y, this.w, this.h);
     }
@@ -230,15 +229,41 @@ class PotatoMine extends Plant {
   }
 
   update() {
-    if (!this.activated && millis() - this.plantTime >= 15000) { // 15 segundos en milisegundos
+    if (!this.activated && millis() - this.plantTime >= 15000) {
       this.activated = true;
-      this.currentFrame = 0; // Reinicia la animación al cambiar a activo
+      this.currentFrame = 0;
       this.direction = 1;
     }
     this.display();
     if (this.activated && frameCount % 30 === 0) {
       this.changeFrame();
     }
+    this.checkCollisionWithZombies();
+  }
+
+  checkCollisionWithZombies() {
+    if (!this.activated) return;
+
+    for (let i = 0; i < zombies.length; i++) {
+      let z = zombies[i];
+      if (
+        this.x < z.x + z.w &&
+        this.x + this.w > z.x &&
+        this.y < z.y + z.h &&
+        this.y + this.h > z.y
+      ) {
+        this.explode(z);
+        break;
+      }
+    }
+  }
+
+  explode(zombie) {
+    let index = plants.indexOf(this);
+    if (index > -1) {
+      plants.splice(index, 1);
+    }
+    zombie.takeDamage(5000);
   }
 }
 
