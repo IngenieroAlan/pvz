@@ -64,12 +64,12 @@ class Sunflower extends Plant {
   }
   checkSunClicked(mx, my, GameController) {
     for (let i = this.suns.length - 1; i >= 0; i--) {
-        if (this.suns[i].isClicked(mx, my)) {
-            this.suns.splice(i, 1);
-            this.sunSound.play();
-            GameController.points += 50;
-            break;
-        }
+      if (this.suns[i].isClicked(mx, my)) {
+        this.suns.splice(i, 1);
+        this.sunSound.play();
+        GameController.points += 50;
+        break;
+      }
     }
   }
 }
@@ -123,7 +123,9 @@ class PeaShooter extends Plant {
     }
     this.projectiles.forEach((projectile) => projectile.update());
     this.projectiles = this.projectiles.filter(
-      (projectile) => !projectile.offscreen()
+      (projectile) => {
+        return  !projectile.offscreen() && !projectile.hits();
+      }
     );
   }
 
@@ -249,14 +251,12 @@ class Projectile {
     this.y = y;
     this.r = 15;
     this.speed = 5;
-    this.damage = 1;
+    this.damage = 20;
     this.imgProjectile = imgProjectile;
-    projectiles.push(this);
   }
 
   update() {
     this.x += this.speed;
-    this.hits();
   }
 
   display() {
@@ -268,18 +268,17 @@ class Projectile {
   }
 
   hits() {
-    zombies.forEach((zombie) => {
+    for (let i = 0; i < zombies.length; i++) {
       if (
-        this.x + this.r > zombie.x &&
-        this.x - this.r < zombie.x + zombie.w &&
-        this.y + this.r > zombie.y &&
-        this.y - this.r < zombie.y + zombie.h
+        this.x < zombies[i].x + zombies[i].w &&
+        this.x + this.r > zombies[i].x &&
+        this.y < zombies[i].y + zombies[i].h &&
+        this.y + this.r > zombies[i].y
       ) {
-        // Remove the projectile from the array and remove animation
-        projectiles.splice(projectiles.indexOf(this), 1);
-        this.display = () => { };
-        zombie.takeDamage(this.damage);
+        zombies[i].takeDamage(this.damage);
+        return true;
       }
-    });
+    }
+    return false;
   }
 }

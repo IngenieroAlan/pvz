@@ -28,7 +28,6 @@ let repeater;
 let potatomine;
 //Projectiles
 let imgProjectiles;
-let projectiles = [];
 //Sun
 let sunSprite;
 let getSunSound;
