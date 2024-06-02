@@ -48,6 +48,7 @@ class Zombie {
   }
 
   hitsPlant() {
+    let hits = false;
     for (let i = 0; i < plants.length; i++) {
       if (
         this.x < plants[i].x + plants[i].w &&
@@ -55,14 +56,17 @@ class Zombie {
         this.y < plants[i].y + plants[i].h &&
         this.y + this.h > plants[i].y
       ) {
-        this.speed = 0;
-        if (frameCount % 60 === 0) {
-          this.biteSound.play();
+        hits = true;
+        if (frameCount % 50 === 0) {
           plants[i].takeDamage(this.damage);
+          this.biteSound.play();
         }
-      } else {
-        this.speed = this.aux_speed;
       }
+    }
+    if (hits) {
+      this.speed = 0;
+    } else {
+      this.speed = this.aux_speed;
     }
   }
 

@@ -123,9 +123,7 @@ class PeaShooter extends Plant {
     }
     this.projectiles.forEach((projectile) => projectile.update());
     this.projectiles = this.projectiles.filter(
-      (projectile) => {
-        return  !projectile.offscreen() && !projectile.hits();
-      }
+      (projectile) => !projectile.offscreen() && !projectile.hits()
     );
   }
 
