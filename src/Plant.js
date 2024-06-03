@@ -73,7 +73,6 @@ class Sunflower extends Plant {
     }
   }
 }
-
 class PeaShooter extends Plant {
   constructor(imgPlant, x, y, imgProjectile) {
     super(imgPlant, x, y);
@@ -191,7 +190,7 @@ class Nut extends Plant {
   }
 }
 class PotatoMine extends Plant {
-  constructor(imgPlant, x, y) {
+  constructor(imgPlant, x, y, explotionSound) {
     super(imgPlant, x, y);
     this.w = 40;
     this.h = 45;
@@ -205,40 +204,100 @@ class PotatoMine extends Plant {
       imgPlant.get(152, 0, 28.5, 28),
       imgPlant.get(180, 0, 28.5, 28),
     ];
+    this.explotionSound = explotionSound;
+    this.explosionFrames = [
+      imgPlant.get(0, 40, 52, 60),//LISTO
+      imgPlant.get(52, 40, 52, 60),//LISTO
+      imgPlant.get(104, 25, 52, 60),//LISTO
+      imgPlant.get(162, 25, 65, 70), // x,y, w, h //listo
+      imgPlant.get(232, 25, 68, 70),// listo aumentar sizes
+      imgPlant.get(300, 25, 74, 70),// listo aumentar sizes
+      imgPlant.get(373, 25, 60, 60),// listo ajustar sizes
+      imgPlant.get(447, 25, 72, 60),// listo ajustar sizes
+    ];
     this.currentFrame = 0;
     this.direction = 1;
     this.activated = false;
+    this.exploded = false;
+    this.explosionFrameIndex = 0;
     this.plantTime = millis();
   }
 
   display() {
-    if (this.activated) {
-      image(this.framesActive[this.currentFrame], this.x, this.y, this.w, this.h);
+    if (this.exploded) {
+      switch (this.explosionFrameIndex) {
+        case 0,1,2:
+          image(
+            this.explosionFrames[this.explosionFrameIndex],
+            this.x - 10,
+            this.y - 10,
+            this.w + 40,
+            this.h + 30
+          );
+          break;
+        case 3:
+          image(this.explosionFrames[this.explosionFrameIndex], this.x-25, this.y-30, this.w+70, this.h+45);
+          break;
+        case 4:
+          image(this.explosionFrames[this.explosionFrameIndex], this.x-25, this.y-33, this.w+80, this.h+46);
+          break;
+        case 5:
+          image(this.explosionFrames[this.explosionFrameIndex], this.x-30, this.y-33, this.w+90, this.h+46);
+          break;
+        case 6:
+          image(this.explosionFrames[this.explosionFrameIndex], this.x-32, this.y-30, this.w+70, this.h+30);
+          break;
+        case 7:
+          image(this.explosionFrames[this.explosionFrameIndex], this.x-35, this.y-33, this.w+90, this.h+35);
+          break;
+      }
+
+    } else if (this.activated) {
+      image(
+        this.framesActive[this.currentFrame],
+        this.x,
+        this.y,
+        this.w,
+        this.h
+      );
     } else {
       image(this.frameInactive, this.x, this.y, this.w, this.h);
     }
   }
 
   changeFrame() {
-    this.currentFrame += this.direction;
-    if (this.currentFrame === this.framesActive.length - 1) {
-      this.direction = -1;
-    } else if (this.currentFrame === 0) {
-      this.direction = 1;
+    if (this.exploded) {
+      this.explosionFrameIndex++;
+      if (this.explosionFrameIndex >= this.explosionFrames.length) {
+        this.remove();
+      }
+    } else {
+      this.currentFrame += this.direction;
+      if (this.currentFrame === this.framesActive.length - 1) {
+        this.direction = -1;
+      } else if (this.currentFrame === 0) {
+        this.direction = 1;
+      }
     }
   }
 
   update() {
-    if (!this.activated && millis() - this.plantTime >= 15000) {
+    if (!this.activated && millis() - this.plantTime >= 1000) { // 15 segundos en milisegundos
       this.activated = true;
       this.currentFrame = 0;
       this.direction = 1;
     }
     this.display();
-    if (this.activated && frameCount % 30 === 0) {
-      this.changeFrame();
+    if (this.exploded) {
+      if (frameCount % 5 === 0) {
+        this.changeFrame();
+      }
+    } else {
+      if (this.activated && frameCount % 30 === 0) {
+        this.changeFrame();
+      }
+      this.checkCollisionWithZombies();
     }
-    this.checkCollisionWithZombies();
   }
 
   checkCollisionWithZombies() {
@@ -259,13 +318,20 @@ class PotatoMine extends Plant {
   }
 
   explode(zombie) {
+    this.exploded = true;
+    this.explosionFrameIndex = 0;
+    zombie.takeDamage(1000);
+    this.explotionSound.play();
+  }
+
+  remove() {
     let index = plants.indexOf(this);
     if (index > -1) {
       plants.splice(index, 1);
     }
-    zombie.takeDamage(5000);
   }
 }
+
 
 // Projectile class
 class Projectile {

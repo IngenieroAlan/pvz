@@ -26,6 +26,8 @@ let peaShooter;
 let nut;
 let repeater;
 let potatomine;
+let potatoExplotionSound;
+
 //Projectiles
 let imgProjectiles;
 //Sun
@@ -76,6 +78,7 @@ function preload() {
     repeater = loadImage("public/assets/images/repeater.png");
     nut = loadImage("public/assets/images/nut.png");
     potatomine = loadImage("public/assets/images/potatomine.png");
+    potatoExplotionSound = loadSound("public/assets/music/potatoexplotesound.mp3");
 
     //SUN SPRITES
     sunSprite = loadImage("public/assets/images/sun.png")
@@ -143,7 +146,7 @@ function setup() {
     plants.push(new Nut(nut, coords.cols[8], coords.rows[1]));
     plants.push(new Nut(nut, coords.cols[6], coords.rows[2]));
     plants.push(new Nut(nut, coords.cols[5], coords.rows[3]));
-    plants.push(new PotatoMine(potatomine, coords.cols[7], coords.rows[3]));
+    plants.push(new PotatoMine(potatomine, coords.cols[7], coords.rows[3],potatoExplotionSound));
 }
 
 function toggleMute() {
