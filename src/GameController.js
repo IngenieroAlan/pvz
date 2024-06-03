@@ -7,6 +7,14 @@ class GameController {
         this.sunSounds = sunSounds;
         this.frameSinceLastSun = 0;
         this.lives = 3;
+        this.selectedPlant = null; // Plant currently selected by the user
+        this.plantCost = {
+            'sunflower': 50,
+            'peashooter': 100,
+            'repeater': 200,
+            'nut': 50,
+            'potatomine': 150
+        };
     }
 
     renderHud() {
@@ -37,6 +45,38 @@ class GameController {
                 this.suns.splice(i, 1);
                 this.points += 50;
                 break;
+            }
+        }
+    }
+    selectPlant(plantType) {
+        this.selectedPlant = plantType;
+        console.log(this.selectedPlant);
+    }
+    placePlant(x, y) {
+        if (this.selectedPlant && this.points >= this.plantCost[this.selectedPlant]) {
+            let col = coords.cols.find(col => x > col - 40 && x < col + 40);
+            let row = coords.rows.find(row => y > row - 40 && y < row + 40);
+
+            if (col && row) {
+                switch (this.selectedPlant) {
+                    case 'sunflower':
+                        plants.push(new Sunflower(sunflower, col, row, sunSprite, getSunSound));
+                        break;
+                    case 'peashooter':
+                        plants.push(new PeaShooter(peaShooter, col, row, imgProjectiles));
+                        break;
+                    case 'repeater':
+                        plants.push(new Repeater(repeater, col, row, imgProjectiles));
+                        break;
+                    case 'nut':
+                        plants.push(new Nut(nut, col, row));
+                        break;
+                    case 'potatomine':
+                        plants.push(new PotatoMine(potatomine, col, row, potatoExplotionSound));
+                        break;
+                }
+                this.points -= this.plantCost[this.selectedPlant]; // Deduct points for the plant
+                this.selectedPlant = null; // Reset the selected plant
             }
         }
     }

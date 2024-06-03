@@ -221,6 +221,23 @@ function keyPressed() {
 }
 
 function mousePressed() {
+    console.log('\nMouseX: ' + mouseX + '\nMouseY: ' + mouseY);
+    if (mouseX > 160 && mouseX < 475 && mouseY > 7 && mouseY < 63) {
+        if (mouseX >= 221 && mouseX<286) {
+            gameController.selectPlant('sunflower');
+        } else if (mouseX > 166 && mouseX<221) {
+            gameController.selectPlant('peashooter');
+        } else if (mouseX < 480 && mouseX>=412) {
+            gameController.selectPlant('repeater');
+        } else if (mouseX < 350 && mouseX>=286) {
+            gameController.selectPlant('nut');
+        } else if (mouseX < 412 && mouseX>=355) {
+            gameController.selectPlant('potatomine');
+        }
+    } else {
+        gameController.placePlant(mouseX, mouseY);
+    }
+
     gameController.checkSunClicked(mouseX, mouseY);
     plants.forEach(plant => {
         if (plant instanceof Sunflower) {
@@ -228,6 +245,7 @@ function mousePressed() {
         }
     });
 }
+
 
 function draw() {
     if (menu) {
@@ -254,9 +272,9 @@ function draw() {
 
             // Spawn zombies at regular intervals
             if (frames % zombieSpawnRate == 0) {
-                zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows),zombieBite));
-                zombies.push(new ConeHeadZombie(imgConeZombie, width, random(coords.rows),zombieBite));
-                zombies.push(new BucketHeadZombie(imgBucketZombie, width, random(coords.rows),zombieBite));
+                zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows), zombieBite));
+                zombies.push(new ConeHeadZombie(imgConeZombie, width, random(coords.rows), zombieBite));
+                zombies.push(new BucketHeadZombie(imgBucketZombie, width, random(coords.rows), zombieBite));
             }
             frames++;
 
@@ -278,9 +296,10 @@ function draw() {
                 }
             }
             gameController.updateSuns(); // Update suns
-            gameController.spawnSun(sunSprite,gameWidth,gameHeight); // Spawn new suns
+            gameController.spawnSun(sunSprite, gameWidth, gameHeight); // Spawn new suns
         } else {
             filter(BLUR, 3);
         }
     }
 }
+
