@@ -235,7 +235,8 @@ function mousePressed() {
             gameController.selectPlant('potatomine');
         }
     } else {
-        gameController.placePlant(mouseX, mouseY);
+        gameController.placePlant(mouseX, mouseY, plants);
+        gameController.selectPlant(null);
     }
 
     gameController.checkSunClicked(mouseX, mouseY);

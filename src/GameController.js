@@ -52,7 +52,7 @@ class GameController {
         this.selectedPlant = plantType;
         console.log(this.selectedPlant);
     }
-    placePlant(x, y) {
+    placePlant(x, y, plants) {
         if (this.selectedPlant && this.points >= this.plantCost[this.selectedPlant]) {
             let col = coords.cols.find(col => x > col - 40 && x < col + 40);
             let row = coords.rows.find(row => y > row - 40 && y < row + 40);
