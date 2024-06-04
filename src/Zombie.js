@@ -20,6 +20,7 @@ class Zombie {
     this.currentFrame = 0;
     this.direction = 1;
     this.damage = 10;
+    this.walking = true;
   }
 
   display() {
@@ -32,8 +33,12 @@ class Zombie {
 
   update() {
     this.x -= this.speed;
-    if (frameCount % 10 === 0) {
-      this.changeFrame();
+    if (frameCount % 60 === 0) this.walking = !this.walking;
+    if (this.walking) {
+      this.speed = this.aux_speed;
+      if (frameCount % 20 === 0) this.changeFrame();
+    } else {
+      this.speed = 0;
     }
     this.display();
     this.hitsPlant();
@@ -43,7 +48,6 @@ class Zombie {
     this.health -= damage;
     if (this.health <= 0) {
       zombies.splice(zombies.indexOf(this), 1);
-      gameController.points += 100;
     }
   }
 
@@ -65,8 +69,6 @@ class Zombie {
     }
     if (hits) {
       this.speed = 0;
-    } else {
-      this.speed = this.aux_speed;
     }
   }
 
@@ -75,12 +77,12 @@ class Zombie {
 }
 class DefaultZombie extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
-    super(imgZombie, x, y, 100, .5, biteSound);
+    super(imgZombie, x, y, 100, .6, biteSound);
   }
 }
 class ConeHeadZombie extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
-    super(imgZombie, x, y, 200, .5, biteSound);
+    super(imgZombie, x, y, 290, .6, biteSound);
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 35, 55),
@@ -91,7 +93,7 @@ class ConeHeadZombie extends Zombie {
 }
 class BucketHeadZombie extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
-    super(imgZombie, x, y, 300, 0.25, biteSound);
+    super(imgZombie, x, y, 650, .6, biteSound);
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 45, 55),
@@ -100,3 +102,5 @@ class BucketHeadZombie extends Zombie {
     ];
   }
 }
+
+//zombiestein 1500 health, smash plants, needs 3 shots to kill nut

@@ -40,7 +40,7 @@ let imgConeZombie;
 let imgBucketZombie;
 let zombieBite;
 let zombies = [];
-let zombieSpawnRate = 100;
+let zombieSpawnRate = 1000;
 let frames = 0;
 
 let coords = {

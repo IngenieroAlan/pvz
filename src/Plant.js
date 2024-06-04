@@ -31,6 +31,7 @@ class Sunflower extends Plant {
     this.sunSound = sunSound;
     this.suns = [];
     this.lastSunTime = millis();
+    this.health = 30;
   }
 
   display() {
@@ -92,7 +93,9 @@ class PeaShooter extends Plant {
     this.direction = 1;
     this.imgProjectile = imgProjectile.get(4.5, 69, 29.5, 28.9);
     this.projectiles = [];
-    this.shootInterval = setInterval(() => this.shootProjectile(), 1000);
+    this.health = 30;
+    //shots every 1.5 seconds
+    this.shootInterval = setInterval(() => this.shootProjectile(), 1500);
   }
 
   display() {
@@ -158,7 +161,7 @@ class Nut extends Plant {
     ];
     this.currentFrame = 0;
     this.direction = 1;
-    this.health = 300;
+    this.health = 400;
   }
 
   display() {
@@ -340,7 +343,7 @@ class Projectile {
     this.y = y;
     this.r = 15;
     this.speed = 5;
-    this.damage = 20;
+    this.damage = 10;
     this.imgProjectile = imgProjectile;
   }
 
