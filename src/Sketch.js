@@ -201,6 +201,10 @@ function showSettings() {
 function changeVolume() {
     let volume = volumeSlider.value();
     menuSound.setVolume(volume);
+    gameSound.setVolume(volume);
+    zombieBite.setVolume(volume);
+    getSunSound.setVolume(volume);
+    potatoExplotionSound.setVolume(volume);
 }
 
 function keyPressed() {
