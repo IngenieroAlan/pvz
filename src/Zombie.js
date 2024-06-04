@@ -20,7 +20,6 @@ class Zombie {
     this.currentFrame = 0;
     this.direction = 1;
     this.damage = 10;
-    this.walking = true;
   }
 
   display() {
@@ -33,13 +32,14 @@ class Zombie {
 
   update() {
     this.x -= this.speed;
-    if (frameCount % 60 === 0) this.walking = !this.walking;
-    if (this.walking) {
-      this.speed = this.aux_speed;
-      if (frameCount % 20 === 0) this.changeFrame();
-    } else {
+    if (this.currentFrame === 0) {
       this.speed = 0;
+    } else {
+      this.speed = this.aux_speed;
     }
+    
+
+    if (frameCount % 30 === 0) this.changeFrame();
     this.display();
     this.hitsPlant();
   }
@@ -77,12 +77,12 @@ class Zombie {
 }
 class DefaultZombie extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
-    super(imgZombie, x, y, 100, .6, biteSound);
+    super(imgZombie, x, y, 100, .2, biteSound);
   }
 }
 class ConeHeadZombie extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
-    super(imgZombie, x, y, 290, .6, biteSound);
+    super(imgZombie, x, y, 290, .2, biteSound);
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 35, 55),
@@ -93,7 +93,7 @@ class ConeHeadZombie extends Zombie {
 }
 class BucketHeadZombie extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
-    super(imgZombie, x, y, 650, .6, biteSound);
+    super(imgZombie, x, y, 650, .2, biteSound);
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 45, 55),
