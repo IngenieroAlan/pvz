@@ -224,12 +224,17 @@ class PotatoMine extends Plant {
     this.exploded = false;
     this.explosionFrameIndex = 0;
     this.plantTime = millis();
+    setTimeout(() => {
+      this.activated = true;
+      this.currentFrame = 0;
+      this.direction = 1;
+    }, 15000);
   }
 
   display() {
     if (this.exploded) {
       switch (this.explosionFrameIndex) {
-        case 0,1,2:
+        case 0, 1, 2:
           image(
             this.explosionFrames[this.explosionFrameIndex],
             this.x - 10,
@@ -239,19 +244,19 @@ class PotatoMine extends Plant {
           );
           break;
         case 3:
-          image(this.explosionFrames[this.explosionFrameIndex], this.x-25, this.y-30, this.w+70, this.h+45);
+          image(this.explosionFrames[this.explosionFrameIndex], this.x - 25, this.y - 30, this.w + 70, this.h + 45);
           break;
         case 4:
-          image(this.explosionFrames[this.explosionFrameIndex], this.x-25, this.y-33, this.w+80, this.h+46);
+          image(this.explosionFrames[this.explosionFrameIndex], this.x - 25, this.y - 33, this.w + 80, this.h + 46);
           break;
         case 5:
-          image(this.explosionFrames[this.explosionFrameIndex], this.x-30, this.y-33, this.w+90, this.h+46);
+          image(this.explosionFrames[this.explosionFrameIndex], this.x - 30, this.y - 33, this.w + 90, this.h + 46);
           break;
         case 6:
-          image(this.explosionFrames[this.explosionFrameIndex], this.x-32, this.y-30, this.w+70, this.h+30);
+          image(this.explosionFrames[this.explosionFrameIndex], this.x - 32, this.y - 30, this.w + 70, this.h + 30);
           break;
         case 7:
-          image(this.explosionFrames[this.explosionFrameIndex], this.x-35, this.y-33, this.w+90, this.h+35);
+          image(this.explosionFrames[this.explosionFrameIndex], this.x - 35, this.y - 33, this.w + 90, this.h + 35);
           break;
       }
 
@@ -285,11 +290,6 @@ class PotatoMine extends Plant {
   }
 
   update() {
-    if (!this.activated && millis() - this.plantTime >= 1000) { // 15 segundos en milisegundos
-      this.activated = true;
-      this.currentFrame = 0;
-      this.direction = 1;
-    }
     this.display();
     if (this.exploded) {
       if (frameCount % 5 === 0) {
@@ -305,7 +305,6 @@ class PotatoMine extends Plant {
 
   checkCollisionWithZombies() {
     if (!this.activated) return;
-
     for (let i = 0; i < zombies.length; i++) {
       let z = zombies[i];
       if (
