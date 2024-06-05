@@ -137,7 +137,7 @@ function setup() {
         textAlign(CENTER);
         text("Press ENTER to start", 400, 300);
     }
-    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3],sunSprite,getSunSound));
+    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3], sunSprite, getSunSound));
     plants.push(new PeaShooter(peaShooter, coords.cols[0], coords.rows[0], imgProjectiles));
     plants.push(new PeaShooter(peaShooter, coords.cols[1], coords.rows[1], imgProjectiles));
     plants.push(new PeaShooter(peaShooter, coords.cols[2], coords.rows[2], imgProjectiles));
@@ -146,7 +146,7 @@ function setup() {
     plants.push(new Nut(nut, coords.cols[8], coords.rows[1]));
     plants.push(new Nut(nut, coords.cols[6], coords.rows[2]));
     plants.push(new Nut(nut, coords.cols[5], coords.rows[3]));
-    plants.push(new PotatoMine(potatomine, coords.cols[7], coords.rows[3],potatoExplotionSound));
+    plants.push(new PotatoMine(potatomine, coords.cols[7], coords.rows[3], potatoExplotionSound));
 }
 
 function toggleMute() {
@@ -227,20 +227,30 @@ function keyPressed() {
 function mousePressed() {
     console.log('\nMouseX: ' + mouseX + '\nMouseY: ' + mouseY);
     if (mouseX > 160 && mouseX < 475 && mouseY > 7 && mouseY < 63) {
-        if (mouseX >= 221 && mouseX<286) {
+        if (mouseX >= 221 && mouseX < 286) {
             gameController.selectPlant('sunflower');
-        } else if (mouseX > 166 && mouseX<221) {
+        } else if (mouseX > 166 && mouseX < 221) {
             gameController.selectPlant('peashooter');
-        } else if (mouseX < 480 && mouseX>=412) {
+        } else if (mouseX < 480 && mouseX >= 412) {
             gameController.selectPlant('repeater');
-        } else if (mouseX < 350 && mouseX>=286) {
+        } else if (mouseX < 350 && mouseX >= 286) {
             gameController.selectPlant('nut');
-        } else if (mouseX < 412 && mouseX>=355) {
+        } else if (mouseX < 412 && mouseX >= 355) {
             gameController.selectPlant('potatomine');
         }
     } else {
-        gameController.placePlant(mouseX, mouseY, plants);
-        gameController.selectPlant(null);
+        let alredyPlaced = false;
+        for (let i = 0; i < plants.length; i++) {
+            if (plants[i].isClicked(mouseX, mouseY)) {
+                console.log('Plant clicked');
+                alredyPlaced = true;
+                break;
+            }
+        }
+        if (!alredyPlaced) {
+            gameController.placePlant(mouseX, mouseY, plants);
+            gameController.selectPlant(null);
+        }
     }
 
     gameController.checkSunClicked(mouseX, mouseY);
