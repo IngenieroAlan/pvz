@@ -196,6 +196,7 @@ class PotatoMine extends Plant {
     super(imgPlant, x, y);
     this.w = 40;
     this.h = 45;
+    this.health = 20;
     this.frameInactive = imgPlant.get(0, 0, 17, 25);
     this.framesActive = [
       imgPlant.get(18, 0, 20.5, 25),
@@ -370,5 +371,18 @@ class Projectile {
       }
     }
     return false;
+  }
+}
+
+class Repeater extends PeaShooter {
+  constructor(imgPlant, x, y, imgProjectile) {
+    super(imgPlant, x, y, imgProjectile);
+    this.health = 50;
+    this.shootInterval = setInterval(() => {
+      this.shootProjectile();
+      setTimeout(() => {
+        this.shootProjectile();
+      }, 100);
+    }, 1000);
   }
 }
