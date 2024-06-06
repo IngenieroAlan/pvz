@@ -41,7 +41,16 @@ let imgBucketZombie;
 let imgZombiestein;
 let zombieBite;
 let zombies = [];
-let zombieSpawnRate = 1000;
+let zombieSpawnRate = 500;
+// array to store zombies of level 1 for each row (default zombies and conehead zombies)
+let zombiesLvl1 = [
+    [0 ,0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2],
+    [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2],
+    [0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2],
+    [0, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 2],
+    [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2],
+];
+let spawnFrame = 0;
 let frames = 0;
 
 let coords = {
@@ -139,16 +148,6 @@ function setup() {
         textAlign(CENTER);
         text("Press ENTER to start", 400, 300);
     }
-    plants.push(new Sunflower(sunflower, coords.cols[0], coords.rows[3], sunSprite, getSunSound));
-    plants.push(new PeaShooter(peaShooter, coords.cols[0], coords.rows[0], imgProjectiles));
-    plants.push(new PeaShooter(peaShooter, coords.cols[1], coords.rows[1], imgProjectiles));
-    plants.push(new PeaShooter(peaShooter, coords.cols[2], coords.rows[2], imgProjectiles));
-    plants.push(new PeaShooter(peaShooter, coords.cols[3], coords.rows[3], imgProjectiles));
-    plants.push(new PeaShooter(peaShooter, coords.cols[4], coords.rows[4], imgProjectiles));
-    plants.push(new Nut(nut, coords.cols[8], coords.rows[1]));
-    plants.push(new Nut(nut, coords.cols[6], coords.rows[2]));
-    plants.push(new Nut(nut, coords.cols[5], coords.rows[3]));
-    plants.push(new PotatoMine(potatomine, coords.cols[7], coords.rows[3], potatoExplotionSound));
 }
 
 function toggleMute() {
@@ -279,10 +278,14 @@ function draw() {
 
             // Spawn zombies at regular intervals
             if (frames % zombieSpawnRate == 0) {
-                zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows), zombieBite));
-                zombies.push(new ConeHeadZombie(imgConeZombie, width, random(coords.rows), zombieBite));
-                zombies.push(new BucketHeadZombie(imgBucketZombie, width, random(coords.rows), zombieBite));
-                zombies.push(new Zombiestein(imgZombiestein, width, random(coords.rows), zombieBite));
+                for (let i = 0; i < zombiesLvl1.length; i++) {
+                    if (zombiesLvl1[i][spawnFrame] == 1) {
+                        zombies.push(new DefaultZombie(imgZombie, width, coords.rows[i], zombieBite));
+                    } else if (zombiesLvl1[i][spawnFrame] == 2) {
+                        zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[i], zombieBite));
+                    }
+                }
+                spawnFrame++;
             }
             frames++;
 
