@@ -97,4 +97,23 @@ class GameController {
             }
         }
     }
+
+    changeLvl() {
+        for (let i = 0; i < zombiesLvl[gameController.lvl - 1].length; i++) {
+            if (zombiesLvl[gameController.lvl - 1][i][spawnFrame] === undefined && zombies.length == 0) {
+                this.lvl++;
+                this.points = 50;
+                // Remove all zombies and plants
+                zombies = [];
+                plants = [];
+                this.suns = [];
+                this.frameSinceLastSun = 0;
+                this.selectedPlant = null;
+                this.lives = 3;
+                frames = 0;
+                spawnFrame = 0;
+                break;
+            }
+        }
+    }
 }

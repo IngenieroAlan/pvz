@@ -42,7 +42,6 @@ let imgZombiestein;
 let zombieBite;
 let zombies = [];
 let zombieSpawnRate = 1000;
-let lvlDurationFrames = 15000;
 let zombiesLvl = [
     // array to store zombies of level 1 for each row (default zombies and conehead zombies)
     [
@@ -337,6 +336,7 @@ function draw() {
             }
             gameController.updateSuns(); // Update suns
             gameController.spawnSun(sunSprite, gameWidth, gameHeight); // Spawn new suns
+            gameController.changeLvl(); // Checks if the level should be changed
         } else {
             filter(BLUR, 3);
         }
