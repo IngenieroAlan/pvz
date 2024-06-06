@@ -239,18 +239,8 @@ function mousePressed() {
             gameController.selectPlant('potatomine');
         }
     } else {
-        let alredyPlaced = false;
-        for (let i = 0; i < plants.length; i++) {
-            if (plants[i].isClicked(mouseX, mouseY)) {
-                console.log('Plant clicked');
-                alredyPlaced = true;
-                break;
-            }
-        }
-        if (!alredyPlaced) {
-            gameController.placePlant(mouseX, mouseY, plants);
-            gameController.selectPlant(null);
-        }
+        gameController.placePlant(mouseX, mouseY, plants);
+        gameController.selectPlant(null);
     }
 
     gameController.checkSunClicked(mouseX, mouseY);

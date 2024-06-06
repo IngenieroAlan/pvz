@@ -12,12 +12,6 @@ class Plant {
       plants.splice(plants.indexOf(this), 1);
     }
   }
-
-  isClicked(mx, my) {
-    return (
-      mx > this.x && mx < this.x + this.w && my > this.y && my < this.y + this.h
-    );
-  }
 }
 class Sunflower extends Plant {
   constructor(imgPlant, x, y, sunSprite, sunSound) {

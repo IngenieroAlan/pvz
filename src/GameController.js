@@ -56,8 +56,15 @@ class GameController {
         if (this.selectedPlant && this.points >= this.plantCost[this.selectedPlant]) {
             let col = coords.cols.find(col => x > col - 40 && x < col + 40);
             let row = coords.rows.find(row => y > row - 40 && y < row + 40);
+            
+            let alredyPlanted = false
+            plants.forEach(plant => {
+                if (plant.x === col && plant.y === row) {
+                    alredyPlanted = true
+                }
+            })
 
-            if (col && row) {
+            if (col && row && !alredyPlanted) {
                 switch (this.selectedPlant) {
                     case 'sunflower':
                         plants.push(new Sunflower(sunflower, col, row, sunSprite, getSunSound));
