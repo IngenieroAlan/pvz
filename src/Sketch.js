@@ -38,6 +38,7 @@ let getSunSound;
 let imgZombie;
 let imgConeZombie;
 let imgBucketZombie;
+let imgZombiestein;
 let zombieBite;
 let zombies = [];
 let zombieSpawnRate = 1000;
@@ -88,6 +89,7 @@ function preload() {
     imgZombie = loadImage("public/assets/images/zombie.png");
     imgConeZombie = loadImage("public/assets/images/conezombie.png");
     imgBucketZombie = loadImage("public/assets/images/bucketzombie.png");
+    imgZombiestein = loadImage("public/assets/images/zombieyeti.png");
     zombieBite = loadSound("public/assets/music/zombiebite.ogg");
 
     imgProjectiles = loadImage("public/assets/images/bullets.png");
@@ -280,6 +282,7 @@ function draw() {
                 zombies.push(new DefaultZombie(imgZombie, width, random(coords.rows), zombieBite));
                 zombies.push(new ConeHeadZombie(imgConeZombie, width, random(coords.rows), zombieBite));
                 zombies.push(new BucketHeadZombie(imgBucketZombie, width, random(coords.rows), zombieBite));
+                zombies.push(new Zombiestein(imgZombiestein, width, random(coords.rows), zombieBite));
             }
             frames++;
 

@@ -37,7 +37,7 @@ class Zombie {
     } else {
       this.speed = this.aux_speed;
     }
-    
+
 
     if (frameCount % 30 === 0) this.changeFrame();
     this.display();
@@ -61,9 +61,12 @@ class Zombie {
         this.y + this.h > plants[i].y
       ) {
         hits = true;
-        if (frameCount % 50 === 0) {
-          plants[i].takeDamage(this.damage);
-          this.biteSound.play();
+        if (frameCount % 60 === 0) {
+          setTimeout(() => {
+            plants[i].takeDamage(this.damage);
+            this.biteSound.play();
+            // animation frames
+          }, 1000);
         }
       }
     }
@@ -104,3 +107,40 @@ class BucketHeadZombie extends Zombie {
 }
 
 //zombiestein 1500 health, smash plants, needs 3 shots to kill nut
+class Zombiestein extends Zombie {
+  constructor(imgZombie, x, y, biteSound) {
+    super(imgZombie, x, y, 1500, .2, biteSound);
+    this.frames = [
+      imgZombie.get(0, 0, 45, 55),
+      imgZombie.get(45, 0, 45, 55),
+      imgZombie.get(80, 0, 45, 55),
+      imgZombie.get(118, 0, 45, 55),
+    ];
+    this.damage = 100;
+    this.health = 1500;
+  }
+
+  hitsPlant() {
+    let hits = false;
+    for (let i = 0; i < plants.length; i++) {
+      if (
+        this.x < plants[i].x + plants[i].w &&
+        this.x + this.w > plants[i].x &&
+        this.y < plants[i].y + plants[i].h &&
+        this.y + this.h > plants[i].y
+      ) {
+        hits = true;
+        if (frameCount % 60 === 0) {
+          setTimeout(() => {
+            plants[i].takeDamage(this.damage);
+            this.biteSound.play();
+            // animation frames
+          }, 2000);
+        }
+      }
+    }
+    if (hits) {
+      this.speed = 0;
+    }
+  }
+}
