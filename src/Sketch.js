@@ -241,7 +241,6 @@ function mousePressed() {
         }
     } else {
         gameController.placePlant(mouseX, mouseY, plants);
-        gameController.selectPlant(null);
     }
 
     gameController.checkSunClicked(mouseX, mouseY);

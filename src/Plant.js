@@ -67,7 +67,7 @@ class Sunflower extends Plant {
       if (this.suns[i].isClicked(mx, my)) {
         this.suns.splice(i, 1);
         this.sunSound.play();
-        GameController.points += 50;
+        GameController.points += 25;
         break;
       }
     }
@@ -105,7 +105,7 @@ class PeaShooter extends Plant {
   }
 
   shootProjectile() {
-    this.projectiles.push(new Projectile(this.x, this.y, this.imgProjectile));
+    this.projectiles.push(new Projectile(this.x+this.w-15, this.y, this.imgProjectile));
   }
 
   changeFrame() {
@@ -130,6 +130,26 @@ class PeaShooter extends Plant {
 
   remove() {
     clearInterval(this.shootInterval);
+  }
+}
+class Repeater extends PeaShooter {
+  constructor(imgPlant, x, y, imgProjectile) {
+    super(imgPlant, x, y, imgProjectile);
+    this.health = 50;
+    this.frames = [
+      imgPlant.get(0, 0, 30.25, 33.5),
+      imgPlant.get(37, 0, 30.25, 33.5),
+      imgPlant.get(74, 0, 30.25, 33.5),
+      imgPlant.get(107, 0, 30.25, 33.5),
+      imgPlant.get(140, 0, 30.25, 33.5),
+    ];
+    clearInterval(this.shootInterval); // Limpiamos el intervalo original de PeaShooter
+    this.shootInterval = setInterval(() => {
+      this.shootProjectile();
+      setTimeout(() => {
+        this.shootProjectile();
+      }, 100);
+    }, 1000);
   }
 }
 class Nut extends Plant {
@@ -333,8 +353,6 @@ class PotatoMine extends Plant {
     }
   }
 }
-
-
 // Projectile class
 class Projectile {
   constructor(x, y, imgProjectile) {
@@ -371,18 +389,5 @@ class Projectile {
       }
     }
     return false;
-  }
-}
-
-class Repeater extends PeaShooter {
-  constructor(imgPlant, x, y, imgProjectile) {
-    super(imgPlant, x, y, imgProjectile);
-    this.health = 50;
-    this.shootInterval = setInterval(() => {
-      this.shootProjectile();
-      setTimeout(() => {
-        this.shootProjectile();
-      }, 100);
-    }, 1000);
   }
 }

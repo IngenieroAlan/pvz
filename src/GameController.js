@@ -43,7 +43,7 @@ class GameController {
             if (this.suns[i].isClicked(mx, my)) {
                 this.sunSounds.play();
                 this.suns.splice(i, 1);
-                this.points += 50;
+                this.points += 25;
                 break;
             }
         }
@@ -82,8 +82,8 @@ class GameController {
                         plants.push(new PotatoMine(potatomine, col, row, potatoExplotionSound));
                         break;
                 }
-                this.points -= this.plantCost[this.selectedPlant]; // Deduct points for the plant
-                this.selectedPlant = null; // Reset the selected plant
+                this.points -= this.plantCost[this.selectedPlant];
+                this.selectedPlant = null;
             }
         }
     }
