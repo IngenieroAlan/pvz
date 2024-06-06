@@ -41,14 +41,33 @@ let imgBucketZombie;
 let imgZombiestein;
 let zombieBite;
 let zombies = [];
-let zombieSpawnRate = 500;
-// array to store zombies of level 1 for each row (default zombies and conehead zombies)
-let zombiesLvl1 = [
-    [0 ,0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2],
-    [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2],
-    [0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2],
-    [0, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 2],
-    [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2],
+let zombieSpawnRate = 1000;
+let lvlDurationFrames = 15000;
+let zombiesLvl = [
+    // array to store zombies of level 1 for each row (default zombies and conehead zombies)
+    [
+        [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2],
+        [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2],
+        [0, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 2],
+        [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2],
+    ],
+    // array to store zombies of level 2 for each row (buckethead zombies)
+    [
+        [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3],
+        [1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 3, 1, 3, 3, 3],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 3, 3, 1, 3, 3, 3],
+        [0, 1, 1, 1, 1, 3, 1, 3, 1, 1, 3, 1, 3, 3, 3],
+        [0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3],
+    ],
+    // array to store zombies of level 3 for each row (zombiestein)
+    [
+        [0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4],
+        [1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 4, 1, 4, 4, 4],
+        [0, 0, 0, 1, 1, 1, 1, 1, 1, 4, 4, 1, 4, 4, 4],
+        [0, 1, 1, 1, 1, 4, 1, 4, 1, 1, 4, 1, 4, 4, 4],
+        [0, 0, 0, 0, 0, 1, 4, 4, 4, 4, 4, 1, 4, 4, 4],
+    ],
 ];
 let spawnFrame = 0;
 let frames = 0;
@@ -232,11 +251,11 @@ function mousePressed() {
             gameController.selectPlant('sunflower');
         } else if (mouseX > 166 && mouseX < 221) {
             gameController.selectPlant('peashooter');
-        } else if (mouseX < 480 && mouseX >= 412) {
+        } else if (mouseX < 480 && mouseX >= 412 && gameController.lvl >= 3) {
             gameController.selectPlant('repeater');
-        } else if (mouseX < 350 && mouseX >= 286) {
+        } else if (mouseX < 350 && mouseX >= 286 && gameController.lvl >= 2) {
             gameController.selectPlant('nut');
-        } else if (mouseX < 412 && mouseX >= 355) {
+        } else if (mouseX < 412 && mouseX >= 355 && gameController.lvl >= 3) {
             gameController.selectPlant('potatomine');
         }
     } else {
@@ -277,11 +296,22 @@ function draw() {
 
             // Spawn zombies at regular intervals
             if (frames % zombieSpawnRate == 0) {
-                for (let i = 0; i < zombiesLvl1.length; i++) {
-                    if (zombiesLvl1[i][spawnFrame] == 1) {
-                        zombies.push(new DefaultZombie(imgZombie, width, coords.rows[i], zombieBite));
-                    } else if (zombiesLvl1[i][spawnFrame] == 2) {
-                        zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[i], zombieBite));
+                for (let i = 0; i < zombiesLvl[gameController.lvl - 1].length; i++) {
+                    switch (zombiesLvl[gameController.lvl - 1][i][spawnFrame]) {
+                        case 0:
+                            break;
+                        case 1:
+                            zombies.push(new DefaultZombie(imgZombie, width, coords.rows[i], zombieBite));
+                            break;
+                        case 2:
+                            zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[i], zombieBite));
+                            break;
+                        case 3:
+                            zombies.push(new BucketHeadZombie(imgBucketZombie, width, coords.rows[i], zombieBite));
+                            break;
+                        case 4:
+                            zombies.push(new Zombiestein(imgZombiestein, width, coords.rows[i], zombieBite));
+                            break;
                     }
                 }
                 spawnFrame++;

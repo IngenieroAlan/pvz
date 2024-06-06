@@ -1,7 +1,12 @@
 class GameController {
     constructor(bg, seeds, points, sunSounds) {
         this.bg = bg;
-        this.seeds = seeds;
+        this.lvl = 1;
+        this.seeds = [
+            seeds.get(0, 0, 51, 26),
+            seeds.get(0, 0, 76, 26),
+            seeds.get(0, 0, 128, 26),
+        ];
         this.points = points;
         this.suns = [];
         this.sunSounds = sunSounds;
@@ -18,15 +23,20 @@ class GameController {
     }
 
     renderHud() {
-        image(this.seeds, 160, 0, 320, 65);
+        this.lvl == 1 ?
+            image(this.seeds[0], 160, 0, 128, 65) :
+            this.lvl == 2 ?
+                image(this.seeds[1], 160, 0, 192, 65) :
+                image(this.seeds[2], 160, 0, 320, 65);
+
         text("POINTS: " + this.points, 80, 50);
     }
 
-    spawnSun(sunImage,width,height) {
+    spawnSun(sunImage, width, height) {
         this.frameSinceLastSun++;
         if (this.frameSinceLastSun > 480) {
             let x = random(240, width - 100);
-            let targetY = random(80,height-50);
+            let targetY = random(80, height - 50);
             this.suns.push(new Sun(sunImage, x, 0, targetY));
             this.frameSinceLastSun = 0;
         }
@@ -56,7 +66,7 @@ class GameController {
         if (this.selectedPlant && this.points >= this.plantCost[this.selectedPlant]) {
             let col = coords.cols.find(col => x > col - 40 && x < col + 40);
             let row = coords.rows.find(row => y > row - 40 && y < row + 40);
-            
+
             let alredyPlanted = false
             plants.forEach(plant => {
                 if (plant.x === col && plant.y === row) {
