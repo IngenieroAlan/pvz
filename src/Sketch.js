@@ -47,34 +47,9 @@ let imgZombiestein;
 let zombieBite;
 let zombies = [];
 let zombieSpawnRate = 1000;
-let zombiesLvl = [
-  // array to store zombies of level 1 for each row (default zombies and conehead zombies)
-  [
-    [0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2],
-    [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2],
-    [0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 2],
-    [0, 1, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 2, 2, 2],
-    [0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2],
-  ],
-  // array to store zombies of level 2 for each row (buckethead zombies)
-  [
-    [0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3],
-    [1, 1, 1, 1, 1, 1, 3, 1, 1, 1, 3, 1, 3, 3, 3],
-    [0, 0, 0, 1, 1, 1, 1, 1, 1, 3, 3, 1, 3, 3, 3],
-    [0, 1, 1, 1, 1, 3, 1, 3, 1, 1, 3, 1, 3, 3, 3],
-    [0, 0, 0, 0, 0, 1, 3, 3, 3, 3, 3, 1, 3, 3, 3],
-  ],
-  // array to store zombies of level 3 for each row (zombiestein)
-  [
-    [0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 1, 4, 4, 4],
-    [1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 4, 1, 4, 4, 4],
-    [0, 0, 0, 1, 1, 1, 1, 1, 1, 4, 4, 1, 4, 4, 4],
-    [0, 1, 1, 1, 1, 4, 1, 4, 1, 1, 4, 1, 4, 4, 4],
-    [0, 0, 0, 0, 0, 1, 4, 4, 4, 4, 4, 1, 4, 4, 4],
-  ],
-];
-let spawnFrame = 0;
-let frames = 0;
+let randomZombie;
+let lvlDuration = 15000;
+let frames = 1000;
 
 let coords = {
   rows: [100, 200, 300, 400, 500],
@@ -238,7 +213,7 @@ function keyPressed() {
 }
 
 function mousePressed() {
-  console.log("\nMouseX: " + mouseX + "\nMouseY: " + mouseY);
+  // console.log("\nMouseX: " + mouseX + "\nMouseY: " + mouseY);
   if (mouseX > 160 && mouseX < 475 && mouseY > 7 && mouseY < 63) {
     if (
       mouseX >= 221 &&
@@ -318,48 +293,77 @@ function draw() {
 
       // Spawn zombies at regular intervals
       if (frames % zombieSpawnRate == 0) {
-        for (let i = 0; i < zombiesLvl[gameController.lvl - 1].length; i++) {
-          switch (zombiesLvl[gameController.lvl - 1][i][spawnFrame]) {
-            case 0:
-              break;
-            case 1:
-              zombies.push(
-                new DefaultZombie(imgZombie, width, coords.rows[i], zombieBite)
-              );
-              break;
-            case 2:
-              zombies.push(
-                new ConeHeadZombie(
-                  imgConeZombie,
-                  width,
-                  coords.rows[i],
-                  zombieBite
-                )
-              );
-              break;
-            case 3:
-              zombies.push(
-                new BucketHeadZombie(
-                  imgBucketZombie,
-                  width,
-                  coords.rows[i],
-                  zombieBite
-                )
-              );
-              break;
-            case 4:
-              zombies.push(
-                new Zombiestein(
-                  imgZombiestein,
-                  width,
-                  coords.rows[i],
-                  zombieBite
-                )
-              );
-              break;
+        console.log(frames);
+        if (gameController.lvl == 1) {
+          randomZombie = random(1);
+          zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          if (frames > 3000) {
+            zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if ((frames % 4000) == 0) {
+            zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if (frames > 5000) {
+            randomZombie < 0.6 ?
+              zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+              zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
           }
         }
-        spawnFrame++;
+        if (gameController.lvl == 2) {
+          randomZombie = random(1);
+          zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          if (frames > 3000) {
+            zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if ((frames % 4000) == 0) {
+            zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if ((frames % 6000) == 0) {
+            zombieSpawnRate = 500;
+            zombies.push(new BucketHeadZombie(imgBucketZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if (frames > 5000) {
+            randomZombie > 0.5 ?
+              zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+              randomZombie > 0.2 ?
+                zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+                zombies.push(new BucketHeadZombie(imgBucketZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+        }
+        if (gameController.lvl == 3) {
+          randomZombie = random(1);
+          zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          if (frames > 3000) {
+            zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if ((frames % 4000) == 0) {
+            zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if ((frames % 6000) == 0) {
+            zombieSpawnRate = 500;
+            zombies.push(new BucketHeadZombie(imgBucketZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if ((frames % 12000) == 0) {
+            zombieSpawnRate = 200;
+            zombies.push(new Zombiestein(imgZombiestein, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if (frames > 5000) {
+            randomZombie > 0.7 ?
+              zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+              randomZombie > 0.4 ?
+                zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+                zombies.push(new BucketHeadZombie(imgBucketZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+          if (frames > 13000) {
+            randomZombie > 0.7 ?
+              zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+              randomZombie > 0.4 ?
+                zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+                randomZombie > 0.1 ?
+                  zombies.push(new BucketHeadZombie(imgBucketZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
+                  zombies.push(new Zombiestein(imgZombiestein, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
+          }
+        }
       }
       frames++;
 

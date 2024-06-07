@@ -1,7 +1,7 @@
 class GameController {
     constructor(bg, seeds, points, sunSounds) {
         this.bg = bg;
-        this.lvl = 1;
+        this.lvl = 2;
         this.seeds = [
             seeds.get(0, 0, 51, 26),
             seeds.get(0, 0, 76, 26),
@@ -127,22 +127,20 @@ class GameController {
     }
 
     changeLvl(bg) {
-        for (let i = 0; i < zombiesLvl[gameController.lvl - 1].length; i++) {
-            if (zombiesLvl[gameController.lvl - 1][i][spawnFrame] === undefined && zombies.length == 0) {
-                this.lvl++;
-                this.points = 50;
-                this.bg = bg;
-                // Remove all zombies and plants
-                zombies = [];
-                plants = [];
-                this.suns = [];
-                this.frameSinceLastSun = 0;
-                this.selectedPlant = null;
-                this.lives = 3;
-                frames = 0;
-                spawnFrame = 0;
-                break;
-            }
+        if (zombies.length == 0 && lvlDuration < frames) {
+            this.lvl++;
+            this.points = 50;
+            this.bg = bg;
+            // Remove all zombies and plants
+            zombies = [];
+            plants = [];
+            this.suns = [];
+            this.frameSinceLastSun = 0;
+            this.selectedPlant = null;
+            this.lives = 3;
+            frames = 1000;
+            zombieSpawnRate = 1000;
+            this.lvl == 2 ? lvlDuration = 15000 : lvlDuration = 22000;
         }
     }
 }
