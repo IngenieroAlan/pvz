@@ -11,6 +11,7 @@ class GameController {
         this.suns = [];
         this.sunSounds = sunSounds;
         this.frameSinceLastSun = 0;
+        this.buffs = [];
         this.lives = 3;
         this.selectedPlant = null; // Plant currently selected by the user
         this.plantCost = {

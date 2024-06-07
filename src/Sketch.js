@@ -30,6 +30,8 @@ let potatoExplotionSound;
 
 //Projectiles
 let imgProjectiles;
+//Buffs
+let imgBuffs;
 //Sun
 let sunSprite;
 let getSunSound;
@@ -119,6 +121,7 @@ function preload() {
     imgZombiestein = loadImage("public/assets/images/zombieyeti.png");
     zombieBite = loadSound("public/assets/music/zombiebite.ogg");
 
+    imgBuffs = loadImage("public/assets/images/upgrades.png");
     imgProjectiles = loadImage("public/assets/images/bullets.png");
     menuBackground = loadImage("public/assets/images/menuBackground.png");
     gameBackground = loadImage("public/assets/images/game-background.png");
