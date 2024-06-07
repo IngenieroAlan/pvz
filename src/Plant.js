@@ -94,7 +94,8 @@ class PeaShooter extends Plant {
     this.projectiles = [];
     this.health = 30;
     //shots every 1.5 seconds
-    this.shootInterval = setInterval(() => this.shootProjectile(), 1500);
+    this.timeInterval = 1500;
+    this.shootInterval = setInterval(() => this.shootProjectile(), this.timeInterval);
   }
 
   display() {
@@ -144,12 +145,13 @@ class Repeater extends PeaShooter {
       imgPlant.get(140, 0, 30.25, 33.5),
     ];
     clearInterval(this.shootInterval); // Limpiamos el intervalo original de PeaShooter
+    this.timeInterval=1000;
     this.shootInterval = setInterval(() => {
       this.shootProjectile();
       setTimeout(() => {
         this.shootProjectile();
       }, 100);
-    }, 1000);
+    }, this.timeInterval);
   }
 }
 class Nut extends Plant {

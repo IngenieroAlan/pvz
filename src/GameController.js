@@ -126,11 +126,12 @@ class GameController {
         }
     }
 
-    changeLvl() {
+    changeLvl(bg) {
         for (let i = 0; i < zombiesLvl[gameController.lvl - 1].length; i++) {
             if (zombiesLvl[gameController.lvl - 1][i][spawnFrame] === undefined && zombies.length == 0) {
                 this.lvl++;
                 this.points = 50;
+                this.bg = bg;
                 // Remove all zombies and plants
                 zombies = [];
                 plants = [];
