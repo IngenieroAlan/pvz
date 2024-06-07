@@ -29,7 +29,11 @@ class GameController {
             potatomine: false
         };
     }
-
+    renderBackground() {
+        this.lvl == 1 && image(this.bg, 0, 0, 1200, 600);
+        this.lvl == 2 && image(this.bg, 0, 0, 1200, 600);
+        this.lvl > 2 && image(this.bg, 0, 0, 1200, 600);
+    }
     renderHud() {
         this.lvl == 1 ?
             image(this.seeds[0], 160, 0, 128, 65) :
