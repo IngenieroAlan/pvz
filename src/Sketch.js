@@ -3,7 +3,7 @@ let font;
 let seeds;
 let gameController;
 //BACKGROUNDS
-let bg;
+let gameBackground;
 let bglv2;
 let bglv3;
 
@@ -12,7 +12,6 @@ let btnMenu;
 let menuBackground;
 let settings;
 let btnSettings;
-let gameBackground;
 let volumeSlider;
 let settingsPanel;
 let button;
@@ -90,6 +89,7 @@ function preload() {
   seeds = loadImage("public/assets/images/seeds.png");
   //BACKGROUNDS SPRITES
   bg = loadImage("public/assets/images/bg.png");
+  gameBackground = loadImage("public/assets/images/game-background.png");
   bglv2 = loadImage("public/assets/images/bgnight.png");
   bglv3 = loadImage("public/assets/images/bgwildwest.png");
 
@@ -117,7 +117,6 @@ function preload() {
   imgBuffs = loadImage("public/assets/images/upgrades.png");
   imgProjectiles = loadImage("public/assets/images/bullets.png");
   menuBackground = loadImage("public/assets/images/menuBackground.png");
-  gameBackground = loadImage("public/assets/images/game-background.png");
   font = loadFont("public/assets/fonts/Samdan.ttf");
 }
 
@@ -127,7 +126,9 @@ function setup() {
   settings = false;
   gameSoundAlreadyStart = false;
   musicActive = true;
-  gameController = new GameController(bg, seeds, POINTS, getSunSound);
+  bglv2 = bglv2.get(3,0,450,200);
+  bglv3 = bglv3.get(70,45,655,315);
+  gameController = new GameController(gameBackground, seeds, POINTS, getSunSound);
 
   btnMenu = createButton("Play music");
   btnMenu.position(width - 150, 20);
@@ -310,7 +311,7 @@ function draw() {
       textFont(font);
       textSize(32);
       fill("white");
-      image(gameBackground, 0, 0, 1200, 600);
+      gameController.renderBackground();
       gameController.renderHud();
       plants.forEach((p) => {
         p.update();
