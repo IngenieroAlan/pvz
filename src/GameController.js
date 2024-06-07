@@ -32,7 +32,7 @@ class GameController {
     renderBackground() {
         this.lvl == 1 && image(this.bg, 0, 0, 1200, 600);
         this.lvl == 2 && image(this.bg, 0, 0, 1200, 600);
-        this.lvl > 2 && image(this.bg, 0, 0, 1200, 600);
+        this.lvl > 2 && image(this.bg, +20, -20, 1140, 620);
     }
     renderHud() {
         this.lvl == 1 ?

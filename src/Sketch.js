@@ -292,7 +292,7 @@ function draw() {
       });
 
       // Spawn zombies at regular intervals
-      if (frames % zombieSpawnRate == 0) {
+      if (frames % zombieSpawnRate == 0 && frames < lvlDuration) {
         console.log(frames);
         if (gameController.lvl == 1) {
           randomZombie = random(1);
