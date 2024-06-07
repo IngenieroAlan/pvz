@@ -47,7 +47,7 @@ let zombieBite;
 let zombies = [];
 let zombieSpawnRate = 1000;
 let randomZombie;
-let lvlDuration = 15000;
+let lvlDuration = 10000;
 let frames = 1000;
 
 let coords = {
@@ -304,6 +304,7 @@ function draw() {
             zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
           }
           if (frames > 5000) {
+            zombieSpawnRate = 500;
             randomZombie < 0.6 ?
               zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite)) :
               zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
@@ -337,10 +338,10 @@ function draw() {
             zombies.push(new DefaultZombie(imgZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
           }
           if ((frames % 4000) == 0) {
+            zombieSpawnRate = 500;
             zombies.push(new ConeHeadZombie(imgConeZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
           }
           if ((frames % 6000) == 0) {
-            zombieSpawnRate = 500;
             zombies.push(new BucketHeadZombie(imgBucketZombie, width, coords.rows[Math.floor(random(0, 5))], zombieBite));
           }
           if ((frames % 12000) == 0) {
