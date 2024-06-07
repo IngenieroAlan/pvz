@@ -111,13 +111,15 @@ class Zombiestein extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
     super(imgZombie, x, y, 1500, .1, biteSound);
     this.frames = [
-      imgZombie.get(0, 0, 45, 55),
-      imgZombie.get(45, 0, 45, 55),
-      imgZombie.get(80, 0, 45, 55),
-      imgZombie.get(118, 0, 45, 55),
+      imgZombie.get(100, 0, 45, 67),
+      imgZombie.get(150, 0, 45, 67),
+      imgZombie.get(200, 0, 45, 67),
+      imgZombie.get(250, 0, 45, 67),
     ];
     this.damage = 100;
     this.health = 1500;
+    this.w = 60;
+    this.h = 100;
   }
 
   hitsPlant() {
