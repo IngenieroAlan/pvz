@@ -34,6 +34,9 @@ let potatoExplotionSound;
 let imgProjectiles;
 //Buffs
 let imgBuffs;
+let extraHealthBuffImage;
+let fasterShootingBuffImage;
+let extraDamageBuffImage;
 //Sun
 let sunSprite;
 let getSunSound;
@@ -101,6 +104,9 @@ function setup() {
   settings = false;
   gameSoundAlreadyStart = false;
   musicActive = true;
+  extraHealthBuffImage = imgBuffs.get(10,155,90,90);
+  fasterShootingBuffImage = imgBuffs.get(140,150,90,90);
+  extraDamageBuffImage = imgBuffs.get(400,0,90,120);
   bglv3 = bglv3.get(70,45,655,315);
   gameController = new GameController(gameBackground, seeds, POINTS, getSunSound);
 
@@ -258,14 +264,15 @@ function mousePressed() {
       plant.checkSunClicked(mouseX, mouseY, gameController);
     }
   });
+  gameController.collectBuff(mouseX, mouseY);
   // Comprobar si se hace clic en un potenciador
-  for (let i = buffs.length - 1; i >= 0; i--) {
+  /*for (let i = buffs.length - 1; i >= 0; i--) {
     if (gameController.buffs[i].isCollected(mouseX, mouseY)) {
       applyBuffToPlant(gameController.buffs[i]);
       gameController.buffs.splice(i, 1);
       break;
     }
-  }
+  }*/
 }
 
 function draw() {
@@ -290,7 +297,7 @@ function draw() {
       plants.forEach((p) => {
         p.update();
       });
-
+      gameController.updateBuffs();
       // Spawn zombies at regular intervals
       if (frames % zombieSpawnRate == 0 && frames < lvlDuration) {
         console.log(frames);
