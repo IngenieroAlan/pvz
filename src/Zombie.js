@@ -48,6 +48,28 @@ class Zombie {
     this.health -= damage;
     if (this.health <= 0) {
       zombies.splice(zombies.indexOf(this), 1);
+      if(gameController.lvl>1){this.dropBuff();}
+    }
+  }
+  dropBuff() {
+    if (random(1) < 0.1) { // 10% de probabilidad
+      let buffTypes = ["ExtraHealthBuff", "FasterShootingBuff", "ExtraDamageBuff"];
+      let randomBuff = random(buffTypes);
+      let newBuff;
+      // Asume que tienes las imágenes de los buffs ya cargadas
+      switch (randomBuff) {
+        case "ExtraHealthBuff":
+          newBuff = new ExtraHealthBuff(extraHealthBuffImage,this.x,this.y);
+          break;
+        case "FasterShootingBuff":
+          newBuff = new FasterShootingBuff(fasterShootingBuffImage,this.x,this.y);
+          break;
+        case "ExtraDamageBuff":
+          newBuff = new ExtraDamageBuff(extraDamageBuffImage,this.x,this.y);
+          break;
+      }
+      
+      gameController.addBuff(newBuff);
     }
   }
 
