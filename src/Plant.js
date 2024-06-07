@@ -342,7 +342,7 @@ class PotatoMine extends Plant {
   explode(zombie) {
     this.exploded = true;
     this.explosionFrameIndex = 0;
-    zombie.takeDamage(1000);
+    zombie.takeDamage(200);
     this.explotionSound.play();
   }
 

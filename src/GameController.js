@@ -20,6 +20,13 @@ class GameController {
             'nut': 50,
             'potatomine': 150
         };
+        this.plantOnCooldown = {
+            sunflower: false,
+            peashooter: false,
+            repeater: false,
+            nut: false,
+            potatomine: false
+        };
     }
 
     renderHud() {
@@ -78,18 +85,38 @@ class GameController {
                 switch (this.selectedPlant) {
                     case 'sunflower':
                         plants.push(new Sunflower(sunflower, col, row, sunSprite, getSunSound));
+                        this.plantOnCooldown.sunflower = true;
+                        setTimeout(() => {
+                            this.plantOnCooldown.sunflower = false;
+                        }, 5000);
                         break;
                     case 'peashooter':
                         plants.push(new PeaShooter(peaShooter, col, row, imgProjectiles));
+                        this.plantOnCooldown.peashooter = true;
+                        setTimeout(() => {
+                            this.plantOnCooldown.peashooter = false;
+                        }, 5000);
                         break;
                     case 'repeater':
                         plants.push(new Repeater(repeater, col, row, imgProjectiles));
+                        this.plantOnCooldown.repeater = true;
+                        setTimeout(() => {
+                            this.plantOnCooldown.repeater = false;
+                        }, 10000);
                         break;
                     case 'nut':
                         plants.push(new Nut(nut, col, row));
+                        this.plantOnCooldown.nut = true;
+                        setTimeout(() => {
+                            this.plantOnCooldown.nut = false;
+                        }, 20000);
                         break;
                     case 'potatomine':
                         plants.push(new PotatoMine(potatomine, col, row, potatoExplotionSound));
+                        this.plantOnCooldown.potatomine = true;
+                        setTimeout(() => {
+                            this.plantOnCooldown.potatomine = false;
+                        }, 10000);
                         break;
                 }
                 this.points -= this.plantCost[this.selectedPlant];

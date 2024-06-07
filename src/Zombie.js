@@ -109,7 +109,7 @@ class BucketHeadZombie extends Zombie {
 //zombiestein 1500 health, smash plants, needs 3 shots to kill nut
 class Zombiestein extends Zombie {
   constructor(imgZombie, x, y, biteSound) {
-    super(imgZombie, x, y, 1500, .2, biteSound);
+    super(imgZombie, x, y, 1500, .1, biteSound);
     this.frames = [
       imgZombie.get(0, 0, 45, 55),
       imgZombie.get(45, 0, 45, 55),

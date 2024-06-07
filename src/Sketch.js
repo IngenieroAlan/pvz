@@ -246,15 +246,15 @@ function keyPressed() {
 function mousePressed() {
     console.log('\nMouseX: ' + mouseX + '\nMouseY: ' + mouseY);
     if (mouseX > 160 && mouseX < 475 && mouseY > 7 && mouseY < 63) {
-        if (mouseX >= 221 && mouseX < 286) {
+        if (mouseX >= 221 && mouseX < 286 && gameController.plantOnCooldown.sunflower === false) { 
             gameController.selectPlant('sunflower');
-        } else if (mouseX > 166 && mouseX < 221) {
+        } else if (mouseX > 166 && mouseX < 221 && gameController.plantOnCooldown.peashooter === false) {
             gameController.selectPlant('peashooter');
-        } else if (mouseX < 480 && mouseX >= 412 && gameController.lvl >= 3) {
+        } else if (mouseX < 480 && mouseX >= 412 && gameController.lvl >= 3 && gameController.plantOnCooldown.repeater === false) {
             gameController.selectPlant('repeater');
-        } else if (mouseX < 350 && mouseX >= 286 && gameController.lvl >= 2) {
+        } else if (mouseX < 350 && mouseX >= 286 && gameController.lvl >= 2 && gameController.plantOnCooldown.nut === false) {
             gameController.selectPlant('nut');
-        } else if (mouseX < 412 && mouseX >= 355 && gameController.lvl >= 3) {
+        } else if (mouseX < 412 && mouseX >= 355 && gameController.lvl >= 3 && gameController.plantOnCooldown.potatomine === false) {
             gameController.selectPlant('potatomine');
         }
     } else {
