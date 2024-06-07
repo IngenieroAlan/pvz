@@ -1,7 +1,7 @@
 class GameController {
     constructor(bg, seeds, points, sunSounds) {
         this.bg = bg;
-        this.lvl = 2;
+        this.lvl = 1;
         this.seeds = [
             seeds.get(0, 0, 51, 26),
             seeds.get(0, 0, 76, 26),
