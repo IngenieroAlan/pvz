@@ -126,7 +126,6 @@ function setup() {
   settings = false;
   gameSoundAlreadyStart = false;
   musicActive = true;
-  bglv2 = bglv2.get(3,0,450,200);
   bglv3 = bglv3.get(70,45,655,315);
   gameController = new GameController(gameBackground, seeds, POINTS, getSunSound);
 
